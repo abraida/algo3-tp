@@ -1,149 +1,183 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalTime;
 
 import static org.junit.Assert.*;
 
+
 public class CalendarioTest {
 
-    private Calendario calendario;
-    private long tareasTotales;
-    private final LocalDate CUATRODENOVIEMBRE = LocalDate.parse("2023-11-04");
+	private Calendario calendario;
 
-    @Before
-    public void setUp() throws Exception {
-        this.calendario = new Calendario();
+	private final LocalDate CUATRODENOVIEMBRE = LocalDate.parse("2023-11-04");
 
-        var t = new TareaDiaria(CUATRODENOVIEMBRE);
-        t.setTitulo("Tarea Diaria 2023-11-04");
-        calendario.agregarTarea(t);
+	@Before
 
-        t = new TareaDiaria(CUATRODENOVIEMBRE.plusDays(1));
-        t.setTitulo("Tarea Diaria 2023-11-05");
-        calendario.agregarTarea(t);
+	public void setUp() {
+		this.calendario = new Calendario();
+	}
 
-        t = new TareaDiaria(CUATRODENOVIEMBRE.plusDays(2));
-        t.setTitulo("Tarea Diaria 2023-11-06");
-        calendario.agregarTarea(t);
+	@Test
 
-        t = new TareaDiaria(CUATRODENOVIEMBRE.plusDays(4));
-        t.setTitulo("Tarea Diaria 2023-11-07");
-        calendario.agregarTarea(t);
+	public void losIDSGeneradosSonUnicos() {
+		var id1 = calendario.crearTareaDiaCompleto(CUATRODENOVIEMBRE);
+		var id2 = calendario.crearTareaPuntual(CUATRODENOVIEMBRE.atStartOfDay());
+		var id3 = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1L);
 
-        var y = new TareaPuntual(CUATRODENOVIEMBRE.atStartOfDay());
-        y.setTitulo("Tarea Puntual 2023-11-04 00:00");
-        calendario.agregarTarea(y);
+		calendario.agregarRepeticionDiaria(calendario.buscarEventoPorId(id3), 1, 10);
+		calendario.obtenerProximosElementos(100, CUATRODENOVIEMBRE.atStartOfDay());
 
-        y = new TareaPuntual(CUATRODENOVIEMBRE.atStartOfDay().plusMinutes(30));
-        y.setTitulo("Tarea Puntual 2023-11-04 00:30");
-        calendario.agregarTarea(y);
+		var id4 = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1L);
 
-        y = new TareaPuntual(CUATRODENOVIEMBRE.plusDays(1).atStartOfDay().plusMinutes(60));
-        y.setTitulo("Tarea Puntual 2023-11-05 01:00");
-        calendario.agregarTarea(y);
+		assertEquals(0, id1);
+		assertEquals(1, id2);
+		assertEquals(2, id3);
+		assertEquals(3, id4);
+	}
 
-        y = new TareaPuntual(CUATRODENOVIEMBRE.plusDays(1).atStartOfDay().plusMinutes(30));
-        y.setTitulo("Tarea Puntual 2023-11-05 00:30");
-        calendario.agregarTarea(y);
+	@Test
 
-        tareasTotales = 9;
+	public void buscarIdInexistenteDevuelveNull() {
+		var e1 = calendario.buscarEventoPorId(0);
+		var t1 = calendario.buscarTareaPorId(0);
 
-    }
+		assertNull(e1);
+		assertNull(t1);
+	}
 
-    @Test
-    public void quitarTareaLaEliminaCorrectamente() {
-        var tareas = calendario.obtenerTareasPorTitulo("Tarea Diaria 2023-11-04");
+	@Test
 
-        boolean condicion = calendario.quitarTarea(tareas.get(0));
+	public void eliminarIdInexistenteDevuelveFalse() {
+		var e1 = calendario.eliminarEventoPorId(0);
+		var t1 = calendario.eliminarTareaPorId(0);
 
-        assertTrue(condicion);
-        assertTrue(calendario.obtenerTareasPorTitulo("Tarea Diaria 2023-11-04").isEmpty());
-    }
+		assertFalse(e1);
+		assertFalse(t1);
+	}
 
-    @Test
-    public void quitarTareaNoEliminaTareasIdenticas() {
-        var t = new TareaDiaria(LocalDate.ofEpochDay(1));
-        t.setTitulo("Tarea Repetida");
-        calendario.agregarTarea(t);
+	@Test
 
-        t = new TareaDiaria(LocalDate.ofEpochDay(1));
-        t.setTitulo("Tarea Repetida");
-        calendario.agregarTarea(t);
+	public void eliminarIdEliminaCorrectamente() {
+		var id1 = calendario.crearTareaDiaCompleto(CUATRODENOVIEMBRE);
+		var id2 = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1L);
 
-        var tareas = calendario.obtenerTareasPorTitulo("Tarea Repetida");
+		var t1 = calendario.buscarTareaPorId(id1);
+		var e1 = calendario.buscarEventoPorId(id2);
+		calendario.eliminarTareaPorId(id1);
+		calendario.eliminarEventoPorId(id2);
+		var t2 = calendario.buscarTareaPorId(id1);
+		var e2 = calendario.buscarEventoPorId(id2);
 
-        calendario.quitarTarea(tareas.get(0));
+		assertNotNull(t1);
+		assertNotNull(e1);
+		assertNull(t2);
+		assertNull(e2);
+	}
 
-        assertEquals(1, calendario.obtenerTareasPorTitulo("Tarea Diaria 2023-11-04").size());
-    }
+	@Test
 
-    @Test
-    public void quitarTareaFueraDelCalendarioNoHaceNada() {
-        var t = new TareaDiaria(LocalDate.ofEpochDay(1));
-        t.setTitulo("Tarea Sin Agregar");
+	public void buscarTareaConIdDeEventoDevuelveNull() {
+		var id2 = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1L);
 
-        boolean condicion = calendario.quitarTarea(t);
+		var t1 = calendario.buscarTareaPorId(id2);
+		var t2 = calendario.eliminarTareaPorId(id2);
 
-        assertFalse(condicion);
-    }
+		assertNull(t1);
+		assertFalse(t2);
+	}
 
-    @Test
-    public void obtenerProximasTareasDevuelveListaVaciaSiNoHay() {
-        var tareas = calendario.obtenerProximasTareas(10, LocalDateTime.MAX);
+	@Test
 
-        int size = tareas.size();
+	public void buscarEventoConIdDeTareaDevuelveNull() {
+		var id1 = calendario.crearTareaDiaCompleto(CUATRODENOVIEMBRE);
 
-        assertEquals(0, size);
-    }
+		var e1 = calendario.buscarEventoPorId(id1);
+		var e2 = calendario.eliminarEventoPorId(id1);
 
-    @Test
-    public void obtenerProximasTareasDevuelveListaVaciaSiSePidenCero() {
-        var tareas = calendario.obtenerProximasTareas(0, LocalDateTime.MIN);
+		assertNull(e1);
+		assertFalse(e2);
+	}
 
-        int size = tareas.size();
+	@Test
 
-        assertEquals(0, size);
-    }
+	public void modificarEventoModificaTodasLasRepeticiones() {
+		var id = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1);
+		var evento = calendario.buscarEventoPorId(id);
+		var alarma = calendario.agregarAlarmaRelativa(evento, Duration.ofMinutes(30), Calendario.EfectoEnum.EMAIL);
 
-    @Test
-    public void obtenerProximasTareasDevuelveTodasSiSePidenMasDeLasQueHay() {
-        var tareas = calendario.obtenerProximasTareas(200,
-                CUATRODENOVIEMBRE.plusDays(1).atTime(0, 45));
+		calendario.agregarRepeticionDiaria(evento, 1, 20);
+		var eventos = calendario.obtenerProximosElementos(10, CUATRODENOVIEMBRE.atStartOfDay());
 
-        var t1 = calendario.obtenerTareasPorTitulo("Tarea Diaria 2023-11-05").get(0);
-        var t2 = calendario.obtenerTareasPorTitulo("Tarea Diaria 2023-11-06").get(0);
-        var t3 = calendario.obtenerTareasPorTitulo("Tarea Diaria 2023-11-07").get(0);
-        var t4 = calendario.obtenerTareasPorTitulo("Tarea Puntual 2023-11-05 01:00").get(0);
-        var titulos = new ArrayList<>(
-                List.of(t1, t2, t3, t4)
-        );
+		Evento evento2 = (Evento) eventos.get(9);
+		calendario.modificarEventoDiaCompleto(evento2,
+			"ASD",
+			"asd",
+			CUATRODENOVIEMBRE.plusDays(1),
+			2);
 
-        int size = tareas.size();
-        boolean con1 = tareas.containsAll(titulos);
+		assertTrue(calendario.eliminarAlarma(evento2, alarma));
 
-        assertEquals(4, size);
-        assertTrue(con1);
-    }
+		assertEquals("ASD", evento.getTitulo());
+		assertEquals(CUATRODENOVIEMBRE.plusDays(1).atStartOfDay(), evento.getInicio());
+		assertFalse(evento.eliminarAlarma(alarma));
+	}
+	@Test
 
-    @Test
-    public void obtenerProximasTareasDevuelveLasPrimeras() {
-        var tareas = calendario.obtenerProximasTareas(2,
-                CUATRODENOVIEMBRE.plusDays(1).atTime(0, 45));
+	public void eliminarEventoEliminaTodasLasRepeticiones() {
+		var id = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1);
+		var evento = calendario.buscarEventoPorId(id);
 
-        var t1 = calendario.obtenerTareasPorTitulo("Tarea Diaria 2023-11-05").get(0);
-        var t2 = calendario.obtenerTareasPorTitulo("Tarea Puntual 2023-11-05 01:00").get(0);
-        var titulos = new ArrayList<>(
-                List.of(t1, t2)
-        );
+		calendario.agregarRepeticionDiaria(evento, 1, 20);
+		var eventos = calendario.obtenerProximosElementos(10, CUATRODENOVIEMBRE.atStartOfDay());
 
-        int size = tareas.size();
-        boolean con1 = tareas.containsAll(titulos);
+		Evento evento2 = (Evento) eventos.get(9);
+		calendario.eliminarEventoPorId(evento2.getId());
 
-        assertEquals(2, size);
-        assertTrue(con1);
-    }
+		assertEquals(0, calendario.obtenerProximosElementos(10, CUATRODENOVIEMBRE.atStartOfDay()).size());
+	}
+	@Test
+
+	public void cambiarLaFrecuenciaDeRepeticionesFuncionaCorrectamente() {
+		var id1 = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1L);
+		var lUnico = calendario.obtenerProximosElementos(10, CUATRODENOVIEMBRE.minusDays(1).atStartOfDay());
+
+		calendario.agregarRepeticionDiaria(calendario.buscarEventoPorId(id1), 1, 2);
+		var lDiario = calendario.obtenerProximosElementos(10, CUATRODENOVIEMBRE.minusDays(1).atStartOfDay());
+
+		calendario.agregarRepeticionAnual(calendario.buscarEventoPorId(id1), 3);
+		var lAnual = calendario.obtenerProximosElementos(10, CUATRODENOVIEMBRE.minusDays(1).atStartOfDay());
+		var e = (Evento) lAnual.get(1);
+
+		assertEquals(1, lUnico.size());
+		assertEquals(2, lDiario.size());
+		assertEquals(3, lAnual.size());
+
+		assertEquals(CUATRODENOVIEMBRE.plusYears(1), e.getInicio().toLocalDate());
+	}
+
+	@Test
+
+	public void obtenerProximosEventosFuncionaCorrectamente() {
+		var id1 = calendario.crearTareaDiaCompleto(CUATRODENOVIEMBRE.plusDays(1));
+		var id2 = calendario.crearTareaPuntual(CUATRODENOVIEMBRE.atStartOfDay().plusHours(2));
+		var id3 = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1L);
+		var id4 = calendario.crearEventoUnico(CUATRODENOVIEMBRE.plusDays(2).atTime(LocalTime.NOON), Duration.ofHours(2));
+
+		calendario.agregarRepeticionDiaria(calendario.buscarEventoPorId(id3), 4, 2);
+		calendario.agregarRepeticionMensual(calendario.buscarEventoPorId(id4), 3);
+
+		var l = calendario.obtenerProximosElementos(7, CUATRODENOVIEMBRE.minusDays(1).atStartOfDay());
+
+		assertEquals(id3, l.get(0).getId());
+		assertEquals(id2, l.get(1).getId());
+		assertEquals(id1, l.get(2).getId());
+		assertEquals(id4, l.get(3).getId());
+		assertEquals(id3, l.get(4).getId());
+		assertEquals(id4, l.get(5).getId());
+		assertEquals(7, l.size());
+
+	}
 }

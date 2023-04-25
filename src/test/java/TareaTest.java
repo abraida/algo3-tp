@@ -1,189 +1,247 @@
 import org.junit.Test;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static org.junit.Assert.*;
 
+
 public class TareaTest {
 
-    @Test
-    public void modificarTituloConCadenaVacia() {
-        var fecha = LocalDate.now();
-        var tarea = new TareaDiaria(fecha);
+	@Test
 
-        tarea.setTitulo("");
-        var titulo = tarea.getTitulo();
+	public void modificarTituloConCadenaVacia() {
+		var fecha = LocalDate.now();
+		var tarea = new TareaDiaria(0, fecha);
 
-        assertEquals("", titulo);
-    }
+		tarea.setTitulo("");
+		var titulo = tarea.getTitulo();
 
-    @Test
-    public void modificarTituloFuncionaCorrectamente() {
-        var fecha = LocalDate.now();
-        var tarea = new TareaDiaria(fecha);
+		assertEquals("", titulo);
+	}
 
-        tarea.setTitulo("Nombre B1");
-        var titulo = tarea.getTitulo();
+	@Test
 
-        assertEquals("Nombre B1", titulo);
-    }
+	public void modificarTituloFuncionaCorrectamente() {
+		var fecha = LocalDate.now();
+		var tarea = new TareaDiaria(0, fecha);
 
-    @Test
-    public void modificarDescripcionConCadenaVacia() {
-        var fecha = LocalDate.now();
-        var tarea = new TareaDiaria(fecha);
+		tarea.setTitulo("Nombre B1");
+		var titulo = tarea.getTitulo();
 
-        tarea.setDescripcion("");
-        var descripcion = tarea.getDescripcion();
+		assertEquals("Nombre B1", titulo);
+	}
 
-        assertEquals("", descripcion);
-    }
+	@Test
 
-    @Test
-    public void modificarDescripcionFuncionaCorrectamente() {
-        var fecha = LocalDate.now();
-        var tarea = new TareaDiaria(fecha);
+	public void modificarDescripcionConCadenaVacia() {
+		var fecha = LocalDate.now();
+		var tarea = new TareaDiaria(0, fecha);
 
-        tarea.setDescripcion("aaaaaaaaaaaaaa \n\n\n 000000000000000");
-        var descripcion = tarea.getDescripcion();
+		tarea.setDescripcion("");
+		var descripcion = tarea.getDescripcion();
 
-        assertEquals("aaaaaaaaaaaaaa \n\n\n 000000000000000", descripcion);
-    }
+		assertEquals("", descripcion);
+	}
 
+	@Test
 
-    @Test
-    public void modificarEstadoFuncionaCorrectamente() {
-        var fecha = LocalDate.now();
-        var tarea = new TareaDiaria(fecha);
+	public void modificarDescripcionFuncionaCorrectamente() {
+		var fecha = LocalDate.now();
+		var tarea = new TareaDiaria(0, fecha);
 
-        tarea.setEstado(true);
-        var estado = tarea.getEstado();
+		tarea.setDescripcion("aaaaaaaaaaaaaa \n\n\n 000000000000000");
+		var descripcion = tarea.getDescripcion();
 
-        assertEquals(true, estado);
-    }
+		assertEquals("aaaaaaaaaaaaaa \n\n\n 000000000000000", descripcion);
+	}
 
-    @Test
-    public void tareaDiariaEsPosteriorADiaAnterior() {
-        var fecha = LocalDate.parse("2023-11-04");
-        var fechaYHora = fecha.minusDays(1).atTime(LocalTime.MAX);
-        var tarea = new TareaDiaria(fecha);
+	@Test
 
-        var condicion = tarea.esPosteriorA(fechaYHora);
+	public void modificarEstadoFuncionaCorrectamente() {
+		var fecha = LocalDate.now();
+		var tarea = new TareaDiaria(0, fecha);
 
-        assertTrue(condicion);
-    }
+		tarea.setEstado(true);
+		var estado = tarea.getEstado();
 
-    @Test
-    public void tareaDiariaNoEsPosteriorAlMismoDia() {
-        var fecha = LocalDate.parse("2023-11-04");
-        var fechaYHora = fecha.atStartOfDay();
-        var tarea = new TareaDiaria(fecha);
+		assertEquals(true, estado);
+	}
 
-        var condicion = tarea.esPosteriorA(fechaYHora);
+	@Test
 
-        assertFalse(condicion);
-    }
+	public void tareaDiariaEsPosteriorADiaAnterior() {
+		var fecha = LocalDate.parse("2023-11-04");
+		var fechaYHora = fecha.minusDays(1).atTime(LocalTime.MAX);
+		var tarea = new TareaDiaria(0, fecha);
 
-    @Test
-    public void tareaDiariaEsSimultaneaAlMismoDia() {
-        var fecha = LocalDate.parse("2023-11-04");
-        var fechaYHora = fecha.atStartOfDay();
-        var tarea = new TareaDiaria(fecha);
+		var condicion = tarea.esPosteriorA(fechaYHora);
 
-        var condicion = tarea.esSimultaneoA(fechaYHora);
+		assertTrue(condicion);
+	}
 
-        assertTrue(condicion);
-    }
+	@Test
 
-    @Test
-    public void tareaDiariaNoEsSimultaneaADiaAnterior() {
-        var fecha = LocalDate.parse("2023-11-04");
-        var fechaYHora = fecha.minusDays(1).atTime(LocalTime.MAX);
-        var tarea = new TareaDiaria(fecha);
+	public void tareaDiariaNoEsPosteriorAlMismoDia() {
+		var fecha = LocalDate.parse("2023-11-04");
+		var fechaYHora = fecha.atStartOfDay();
+		var tarea = new TareaDiaria(0, fecha);
 
-        var condicion = tarea.esSimultaneoA(fechaYHora);
+		var condicion = tarea.esPosteriorA(fechaYHora);
 
-        assertFalse(condicion);
-    }
+		assertFalse(condicion);
+	}
 
-    @Test
-    public void tareaDiariaNoEsSimultaneaADiaPosterior() {
-        var fecha = LocalDate.parse("2023-11-04");
-        var fechaYHora = fecha.plusDays(1).atStartOfDay();
-        var tarea = new TareaDiaria(fecha);
+	@Test
 
-        var condicion = tarea.esPosteriorA(fechaYHora);
+	public void tareaDiariaEsSimultaneaAlMismoDia() {
+		var fecha = LocalDate.parse("2023-11-04");
+		var fechaYHora = fecha.atStartOfDay();
+		var tarea = new TareaDiaria(0, fecha);
 
-        assertFalse(condicion);
-    }
+		var condicion = tarea.esSimultaneoA(fechaYHora);
 
+		assertTrue(condicion);
+	}
 
-    @Test
-    public void tareaDiariaEsAnteriorADiaPosterior() {
-        var fecha = LocalDate.parse("2023-11-04");
-        var fechaYHora = fecha.plusDays(1).atStartOfDay();
-        var tarea = new TareaDiaria(fecha);
+	@Test
 
-        var condicion = tarea.esAnteriorA(fechaYHora);
+	public void tareaDiariaNoEsSimultaneaADiaAnterior() {
+		var fecha = LocalDate.parse("2023-11-04");
+		var fechaYHora = fecha.minusDays(1).atTime(LocalTime.MAX);
+		var tarea = new TareaDiaria(0, fecha);
 
-        assertTrue(condicion);
-    }
+		var condicion = tarea.esSimultaneoA(fechaYHora);
 
-    @Test
-    public void tareaDiariaNoEsAnteriorAlMismoDia() {
-        var fecha = LocalDate.parse("2023-11-04");
-        var fechaYHora = fecha.atStartOfDay();
-        var tarea = new TareaDiaria(fecha);
+		assertFalse(condicion);
+	}
 
-        var condicion = tarea.esAnteriorA(fechaYHora);
+	@Test
 
-        assertFalse(condicion);
-    }
+	public void tareaDiariaNoEsSimultaneaADiaPosterior() {
+		var fecha = LocalDate.parse("2023-11-04");
+		var fechaYHora = fecha.plusDays(1).atStartOfDay();
+		var tarea = new TareaDiaria(0, fecha);
 
-    @Test
-    public void tareaDiariaEsMenorATareaPuntalPosterior() {
-        var fecha = LocalDate.parse("2023-11-04");
-        var tarea = new TareaDiaria(fecha);
+		var condicion = tarea.esPosteriorA(fechaYHora);
 
-        var fechaYHora = fecha.atStartOfDay().plusDays(1);
-        var tareaP = new TareaPuntual(fechaYHora);
+		assertFalse(condicion);
+	}
 
-        var condicion1 = tarea.compareTo(tareaP);
-        var condicion2 = tareaP.compareTo(tarea);
+	@Test
 
-        assertEquals(-1, condicion1);
-        assertEquals(1, condicion2);
-    }
+	public void tareaDiariaEsAnteriorADiaPosterior() {
+		var fecha = LocalDate.parse("2023-11-04");
+		var fechaYHora = fecha.plusDays(1).atStartOfDay();
+		var tarea = new TareaDiaria(0, fecha);
 
-    @Test
-    public void tareaDiariaEsIgualATareaPuntalSimultanea() {
-        var fecha = LocalDate.parse("2023-11-04");
-        var tarea = new TareaDiaria(fecha);
+		var condicion = tarea.esAnteriorA(fechaYHora);
 
-        var fechaYHora = fecha.atStartOfDay();
-        var tareaP = new TareaPuntual(fechaYHora);
+		assertTrue(condicion);
+	}
 
-        var condicion1 = tarea.compareTo(tareaP);
-        var condicion2 = tareaP.compareTo(tarea);
+	@Test
 
-        assertEquals(0, condicion1);
-        assertEquals(0, condicion2);
-    }
+	public void tareaDiariaNoEsAnteriorAlMismoDia() {
+		var fecha = LocalDate.parse("2023-11-04");
+		var fechaYHora = fecha.atStartOfDay();
+		var tarea = new TareaDiaria(0, fecha);
 
-    @Test
-    public void tareaDiariaEsMayorATareaPuntualAnterior() {
-        var fecha = LocalDate.parse("2023-11-04");
-        var tarea = new TareaDiaria(fecha);
+		var condicion = tarea.esAnteriorA(fechaYHora);
 
-        var fechaYHora = fecha.minusDays(1).atTime(LocalTime.MAX);
-        var tareaP = new TareaPuntual(fechaYHora);
+		assertFalse(condicion);
+	}
 
-        var condicion1 = tarea.compareTo(tareaP);
-        var condicion2 = tareaP.compareTo(tarea);
+	@Test
 
-        assertEquals(1, condicion1);
-        assertEquals(-1, condicion2);
-    }
+	public void tareaDiariaEsMenorATareaPuntalPosterior() {
+		var fecha = LocalDate.parse("2023-11-04");
+		var tarea = new TareaDiaria(0, fecha);
+
+		var fechaYHora = fecha.atStartOfDay().plusDays(1);
+		var tareaP = new TareaPuntual(0, fechaYHora);
+
+		var condicion1 = tarea.compareTo(tareaP);
+		var condicion2 = tareaP.compareTo(tarea);
+
+		assertEquals(-1, condicion1);
+		assertEquals(1, condicion2);
+	}
+
+	@Test
+
+	public void tareaDiariaEsIgualATareaPuntalSimultanea() {
+		var fecha = LocalDate.parse("2023-11-04");
+		var tarea = new TareaDiaria(0, fecha);
+
+		var fechaYHora = fecha.atTime(LocalTime.NOON);
+		var tareaP = new TareaPuntual(0, fechaYHora);
+
+		var condicion1 = tarea.compareTo(tareaP);
+		var condicion2 = tareaP.compareTo(tarea);
+
+		assertEquals(0, condicion1);
+		assertEquals(0, condicion2);
+	}
+
+	@Test
+
+	public void tareaDiariaEsMayorATareaPuntualAnterior() {
+		var fecha = LocalDate.parse("2023-11-04");
+		var tarea = new TareaDiaria(0, fecha);
+
+		var fechaYHora = fecha.minusDays(1).atTime(LocalTime.MAX);
+		var tareaP = new TareaPuntual(0, fechaYHora);
+
+		var condicion1 = tarea.compareTo(tareaP);
+		var condicion2 = tareaP.compareTo(tarea);
+
+		assertEquals(1, condicion1);
+		assertEquals(-1, condicion2);
+	}
+
+	@Test
+
+	public void alarmaRelativaDeTareaDiariaSuenaAntesDeComenzarElDia() {
+		var fecha = LocalDate.parse("2023-11-04");
+		var tarea = new TareaDiaria(0, fecha);
+		var tiempoRelativo = Duration.ofMinutes(30);
+		var alarma = new AlarmaRelativa(tiempoRelativo, new EfectoSinEfecto());
+		tarea.agregarAlarma(alarma);
+
+		var t = tarea.obtenerTiempoDeAlarma(alarma);
+
+		assertEquals(t, fecha.atStartOfDay().minusMinutes(30));
+	}
+
+	@Test
+
+	public void alarmaRelativaDeTareaPuntualSuenaAntesDeVencimiento() {
+		var fechaYHora = LocalDateTime.now();
+		var tarea = new TareaPuntual(0, fechaYHora);
+		var tiempoRelativo = Duration.ofMinutes(30);
+		var alarma = new AlarmaRelativa(tiempoRelativo, new EfectoSinEfecto());
+		tarea.agregarAlarma(alarma);
+
+		var t = tarea.obtenerTiempoDeAlarma(alarma);
+
+		assertEquals(t, fechaYHora.minusMinutes(30));
+	}
+
+	@Test
+
+	public void alarmaAbsolutaDeTareaSuenaALaHoraMarcada() {
+		var fecha = LocalDate.parse("2023-11-04");
+		var tarea = new TareaDiaria(0, fecha);
+		var horaMarcada = LocalDateTime.now();
+		var alarma = new AlarmaAbsoluta(horaMarcada, new EfectoSinEfecto());
+		tarea.agregarAlarma(alarma);
+
+		var t = tarea.obtenerTiempoDeAlarma(alarma);
+
+		assertEquals(t, horaMarcada);
+	}
+
 }
-
