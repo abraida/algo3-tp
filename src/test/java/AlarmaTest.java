@@ -17,9 +17,9 @@ public class AlarmaTest {
 
 	public void alarmaAbsolutaSuenaSiempreALaHoraMarcadaParaCualquierHora() {
 		var tiempo = LocalDateTime.MIN;
-		var alarma = new AlarmaAbsoluta(tiempo, mail);
+		var alarma = new AlarmaAbsoluta(0, tiempo, mail);
 
-		var t = alarma.getTiempo(LocalDateTime.now());
+		var t = alarma.getTiempo(LocalDateTime.MAX);
 
 		assertEquals(tiempo, t);
 	}
@@ -28,8 +28,8 @@ public class AlarmaTest {
 
 	public void alarmaRelativaSuenaALaHoraMarcadaSiTiempoRelativoEsCero() {
 		var tiempo = Duration.ZERO;
-		var alarma = new AlarmaRelativa(tiempo, mail);
-		var tiempoMarcado = LocalDateTime.now();
+		var alarma = new AlarmaRelativa(0, tiempo, mail);
+		var tiempoMarcado = LocalDateTime.MAX;
 		var t = alarma.getTiempo(tiempoMarcado);
 
 		assertEquals(tiempoMarcado, t);
@@ -39,7 +39,7 @@ public class AlarmaTest {
 
 	public void alarmaRelativaSuenaEnElMinimoPosibleSiHaceFalta() {
 		var tiempo = Duration.ofHours(2);
-		var alarma = new AlarmaRelativa(tiempo, mail);
+		var alarma = new AlarmaRelativa(0, tiempo, mail);
 		var tiempoMarcado = LocalDateTime.MIN;
 		var t = alarma.getTiempo(tiempoMarcado);
 
@@ -50,11 +50,20 @@ public class AlarmaTest {
 
 	public void alarmaRelativaSuenaALaHoraCorrecta() {
 		var tiempo = Duration.ofHours(2);
-		var alarma = new AlarmaRelativa(tiempo, mail);
-		var tiempoMarcado = LocalDateTime.now();
+		var alarma = new AlarmaRelativa(0, tiempo, mail);
+		var tiempoMarcado = LocalDateTime.MAX;
 
 		var t = alarma.getTiempo(tiempoMarcado);
 
 		assertEquals(tiempoMarcado.minus(tiempo), t);
+	}
+
+	@Test
+
+	public void alarmaRealizaElEfectoDeseado(){
+		var tiempo = Duration.ofHours(2);
+		var alarma = new AlarmaRelativa(0, tiempo, mail);
+		var enumEfecto = alarma.disparar();
+		assertEquals(EfectoEnum.EMAIL, enumEfecto);
 	}
 }

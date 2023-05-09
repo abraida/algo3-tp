@@ -1,13 +1,17 @@
 import java.time.LocalDateTime;
 
 
-public abstract class Alarma {
+public abstract class Alarma implements Identificable {
 	protected Efecto efecto;
-
+	protected long id;
 	public abstract LocalDateTime getTiempo(LocalDateTime tiempo);
 
-	void disparar() {
-		this.efecto.realizar();
+	EfectoEnum disparar() {
+		return this.efecto.realizar();
 	}
 
+	@Override
+	public long getId() {
+		return this.id;
+	}
 }

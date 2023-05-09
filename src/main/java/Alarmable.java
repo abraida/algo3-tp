@@ -3,10 +3,11 @@ import java.time.LocalDateTime;
 
 public interface Alarmable {
 
-	void agregarAlarma(Alarma alarma);
+	long agregarAlarma(Alarma alarma);
 
-	boolean eliminarAlarma(Alarma alarma);
+	boolean eliminarAlarmaPorID(long alarmaID);
 
+	Alarma obtenerAlarmaPorID(long alarmaID);
 	LocalDateTime obtenerTiempoDeAlarma(Alarma alarma);
 
 }

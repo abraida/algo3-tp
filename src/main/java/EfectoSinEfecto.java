@@ -1,7 +1,7 @@
 public class EfectoSinEfecto implements Efecto {
 	@Override
 
-	public void realizar() {
-		// nada
+	public EfectoEnum realizar() {
+		return null;
 	}
 }

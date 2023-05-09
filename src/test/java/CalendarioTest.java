@@ -25,12 +25,16 @@ public class CalendarioTest {
 	public void losIDSGeneradosSonUnicos() {
 		var id1 = calendario.crearTareaDiaCompleto(CUATRODENOVIEMBRE);
 		var id2 = calendario.crearTareaPuntual(CUATRODENOVIEMBRE.atStartOfDay());
-		var id3 = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1L);
+		var gen = new GeneradorDiario(1);
+		var lim = new LimitadorPorCantidad(3);
 
-		calendario.agregarRepeticionDiaria(calendario.buscarEventoPorId(id3), 1, 10);
+		var id3 = calendario.crearEventoDiaCompleto(CUATRODENOVIEMBRE,  1L);
+		calendario.modificarReglaDeRepeticion(calendario.buscarEventoPorId(id3), gen);
+		calendario.modificarCantidadDeRepeticiones(calendario.buscarEventoPorId(id3),lim);
+
 		calendario.obtenerProximosElementos(100, CUATRODENOVIEMBRE.atStartOfDay());
 
-		var id4 = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1L);
+		var id4 = calendario.crearEventoDiaCompleto(CUATRODENOVIEMBRE, 1L);
 
 		assertEquals(0, id1);
 		assertEquals(1, id2);
@@ -62,7 +66,7 @@ public class CalendarioTest {
 
 	public void eliminarIdEliminaCorrectamente() {
 		var id1 = calendario.crearTareaDiaCompleto(CUATRODENOVIEMBRE);
-		var id2 = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1L);
+		var id2 = calendario.crearEventoDiaCompleto(CUATRODENOVIEMBRE, 1L);
 
 		var t1 = calendario.buscarTareaPorId(id1);
 		var e1 = calendario.buscarEventoPorId(id2);
@@ -80,7 +84,7 @@ public class CalendarioTest {
 	@Test
 
 	public void buscarTareaConIdDeEventoDevuelveNull() {
-		var id2 = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1L);
+		var id2 = calendario.crearEventoDiaCompleto(CUATRODENOVIEMBRE, 1L);
 
 		var t1 = calendario.buscarTareaPorId(id2);
 		var t2 = calendario.eliminarTareaPorId(id2);
@@ -104,11 +108,16 @@ public class CalendarioTest {
 	@Test
 
 	public void modificarEventoModificaTodasLasRepeticiones() {
-		var id = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1);
-		var evento = calendario.buscarEventoPorId(id);
-		var alarma = calendario.agregarAlarmaRelativa(evento, Duration.ofMinutes(30), Calendario.EfectoEnum.EMAIL);
+		var gen = new GeneradorDiario(1);
+		var lim = new LimitadorPorCantidad(20);
 
-		calendario.agregarRepeticionDiaria(evento, 1, 20);
+		var id = calendario.crearEventoDiaCompleto(CUATRODENOVIEMBRE, 1);
+		calendario.modificarReglaDeRepeticion(calendario.buscarEventoPorId(id), gen);
+		calendario.modificarCantidadDeRepeticiones(calendario.buscarEventoPorId(id),lim);
+
+		var evento = calendario.buscarEventoPorId(id);
+		var alarmaID = calendario.agregarAlarmaRelativa(evento, Duration.ofMinutes(30), EfectoEnum.EMAIL);
+
 		var eventos = calendario.obtenerProximosElementos(10, CUATRODENOVIEMBRE.atStartOfDay());
 
 		Evento evento2 = (Evento) eventos.get(9);
@@ -118,19 +127,24 @@ public class CalendarioTest {
 			CUATRODENOVIEMBRE.plusDays(1),
 			2);
 
-		assertTrue(calendario.eliminarAlarma(evento2, alarma));
+		assertTrue(calendario.eliminarAlarma(evento2, alarmaID));
 
 		assertEquals("ASD", evento.getTitulo());
 		assertEquals(CUATRODENOVIEMBRE.plusDays(1).atStartOfDay(), evento.getInicio());
-		assertFalse(evento.eliminarAlarma(alarma));
+		assertFalse(evento.eliminarAlarmaPorID(alarmaID));
 	}
 	@Test
 
 	public void eliminarEventoEliminaTodasLasRepeticiones() {
-		var id = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1);
+		var id = calendario.crearEventoDiaCompleto(CUATRODENOVIEMBRE, 1);
 		var evento = calendario.buscarEventoPorId(id);
 
-		calendario.agregarRepeticionDiaria(evento, 1, 20);
+		var gen = new GeneradorDiario(1);
+		var lim = new LimitadorPorCantidad(20);
+
+		calendario.modificarReglaDeRepeticion(evento,  gen);
+		calendario.modificarCantidadDeRepeticiones(evento,lim);
+
 		var eventos = calendario.obtenerProximosElementos(10, CUATRODENOVIEMBRE.atStartOfDay());
 
 		Evento evento2 = (Evento) eventos.get(9);
@@ -141,13 +155,22 @@ public class CalendarioTest {
 	@Test
 
 	public void cambiarLaFrecuenciaDeRepeticionesFuncionaCorrectamente() {
-		var id1 = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1L);
+		var id1 = calendario.crearEventoDiaCompleto(CUATRODENOVIEMBRE, 1L);
 		var lUnico = calendario.obtenerProximosElementos(10, CUATRODENOVIEMBRE.minusDays(1).atStartOfDay());
 
-		calendario.agregarRepeticionDiaria(calendario.buscarEventoPorId(id1), 1, 2);
+		var gen1 = new GeneradorDiario(1);
+		var lim1 = new LimitadorPorCantidad(2);
+		calendario.modificarReglaDeRepeticion(calendario.buscarEventoPorId(id1), gen1);
+		calendario.modificarCantidadDeRepeticiones(calendario.buscarEventoPorId(id1),lim1);
+
 		var lDiario = calendario.obtenerProximosElementos(10, CUATRODENOVIEMBRE.minusDays(1).atStartOfDay());
 
-		calendario.agregarRepeticionAnual(calendario.buscarEventoPorId(id1), 3);
+		var gen2 = new GeneradorAnual();
+		var lim2 = new LimitadorPorCantidad(3);
+
+		calendario.modificarReglaDeRepeticion(calendario.buscarEventoPorId(id1), gen2);
+		calendario.modificarCantidadDeRepeticiones(calendario.buscarEventoPorId(id1),lim2);
+
 		var lAnual = calendario.obtenerProximosElementos(10, CUATRODENOVIEMBRE.minusDays(1).atStartOfDay());
 		var e = (Evento) lAnual.get(1);
 
@@ -163,11 +186,20 @@ public class CalendarioTest {
 	public void obtenerProximosEventosFuncionaCorrectamente() {
 		var id1 = calendario.crearTareaDiaCompleto(CUATRODENOVIEMBRE.plusDays(1));
 		var id2 = calendario.crearTareaPuntual(CUATRODENOVIEMBRE.atStartOfDay().plusHours(2));
-		var id3 = calendario.crearEventoUnicoDiaCompleto(CUATRODENOVIEMBRE, 1L);
-		var id4 = calendario.crearEventoUnico(CUATRODENOVIEMBRE.plusDays(2).atTime(LocalTime.NOON), Duration.ofHours(2));
 
-		calendario.agregarRepeticionDiaria(calendario.buscarEventoPorId(id3), 4, 2);
-		calendario.agregarRepeticionMensual(calendario.buscarEventoPorId(id4), 3);
+		var gen1 = new GeneradorDiario(4);
+		var lim1 = new LimitadorPorCantidad(2);
+		var id3 = calendario.crearEventoDiaCompleto(CUATRODENOVIEMBRE, 1L);
+
+		calendario.modificarReglaDeRepeticion(calendario.buscarEventoPorId(id3), gen1);
+		calendario.modificarCantidadDeRepeticiones(calendario.buscarEventoPorId(id3),lim1);
+
+		var gen2 = new GeneradorMensual();
+		var lim2 = new LimitadorPorCantidad(3);
+
+		var id4 = calendario.crearEvento(CUATRODENOVIEMBRE.plusDays(2).atTime(LocalTime.NOON), Duration.ofHours(2));
+		calendario.modificarReglaDeRepeticion(calendario.buscarEventoPorId(id4), gen2);
+		calendario.modificarCantidadDeRepeticiones(calendario.buscarEventoPorId(id4), lim2);
 
 		var l = calendario.obtenerProximosElementos(7, CUATRODENOVIEMBRE.minusDays(1).atStartOfDay());
 
@@ -179,5 +211,16 @@ public class CalendarioTest {
 		assertEquals(id4, l.get(5).getId());
 		assertEquals(7, l.size());
 
+	}
+
+	@Test
+
+	public void agregarAlarmaLaCreaConElEfectoDeseado(){
+		var id = calendario.crearEventoDiaCompleto(CUATRODENOVIEMBRE, 1);
+		var evento = calendario.buscarEventoPorId(id);
+		var efectoEnum = EfectoEnum.EMAIL;
+		var alarmaID = calendario.agregarAlarmaRelativa(evento, Duration.ofMinutes(30), efectoEnum);
+
+		assertEquals(efectoEnum, evento.obtenerAlarmaPorID(alarmaID).disparar());
 	}
 }

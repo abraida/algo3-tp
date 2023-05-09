@@ -1,7 +1,7 @@
 public class EfectoNotificacion implements Efecto {
 	@Override
 
-	public void realizar() {
-		// Notificar
+	public EfectoEnum realizar() {
+		return EfectoEnum.NOTIFICACION;
 	}
 }

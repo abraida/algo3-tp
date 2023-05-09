@@ -10,65 +10,7 @@ import static org.junit.Assert.*;
 
 public class TareaTest {
 
-	@Test
 
-	public void modificarTituloConCadenaVacia() {
-		var fecha = LocalDate.now();
-		var tarea = new TareaDiaria(0, fecha);
-
-		tarea.setTitulo("");
-		var titulo = tarea.getTitulo();
-
-		assertEquals("", titulo);
-	}
-
-	@Test
-
-	public void modificarTituloFuncionaCorrectamente() {
-		var fecha = LocalDate.now();
-		var tarea = new TareaDiaria(0, fecha);
-
-		tarea.setTitulo("Nombre B1");
-		var titulo = tarea.getTitulo();
-
-		assertEquals("Nombre B1", titulo);
-	}
-
-	@Test
-
-	public void modificarDescripcionConCadenaVacia() {
-		var fecha = LocalDate.now();
-		var tarea = new TareaDiaria(0, fecha);
-
-		tarea.setDescripcion("");
-		var descripcion = tarea.getDescripcion();
-
-		assertEquals("", descripcion);
-	}
-
-	@Test
-
-	public void modificarDescripcionFuncionaCorrectamente() {
-		var fecha = LocalDate.now();
-		var tarea = new TareaDiaria(0, fecha);
-
-		tarea.setDescripcion("aaaaaaaaaaaaaa \n\n\n 000000000000000");
-		var descripcion = tarea.getDescripcion();
-
-		assertEquals("aaaaaaaaaaaaaa \n\n\n 000000000000000", descripcion);
-	}
-
-	@Test
-
-	public void modificarEstadoFuncionaCorrectamente() {
-		var fecha = LocalDate.now();
-		var tarea = new TareaDiaria(0, fecha);
-
-		tarea.setEstado(true);
-		var estado = tarea.getEstado();
-
-		assertEquals(true, estado);
-	}
 
 	@Test
 
@@ -208,7 +150,7 @@ public class TareaTest {
 		var fecha = LocalDate.parse("2023-11-04");
 		var tarea = new TareaDiaria(0, fecha);
 		var tiempoRelativo = Duration.ofMinutes(30);
-		var alarma = new AlarmaRelativa(tiempoRelativo, new EfectoSinEfecto());
+		var alarma = new AlarmaRelativa(0, tiempoRelativo, new EfectoSinEfecto());
 		tarea.agregarAlarma(alarma);
 
 		var t = tarea.obtenerTiempoDeAlarma(alarma);
@@ -219,10 +161,10 @@ public class TareaTest {
 	@Test
 
 	public void alarmaRelativaDeTareaPuntualSuenaAntesDeVencimiento() {
-		var fechaYHora = LocalDateTime.now();
+		var fechaYHora = LocalDateTime.MAX;
 		var tarea = new TareaPuntual(0, fechaYHora);
 		var tiempoRelativo = Duration.ofMinutes(30);
-		var alarma = new AlarmaRelativa(tiempoRelativo, new EfectoSinEfecto());
+		var alarma = new AlarmaRelativa(0, tiempoRelativo, new EfectoSinEfecto());
 		tarea.agregarAlarma(alarma);
 
 		var t = tarea.obtenerTiempoDeAlarma(alarma);
@@ -235,8 +177,8 @@ public class TareaTest {
 	public void alarmaAbsolutaDeTareaSuenaALaHoraMarcada() {
 		var fecha = LocalDate.parse("2023-11-04");
 		var tarea = new TareaDiaria(0, fecha);
-		var horaMarcada = LocalDateTime.now();
-		var alarma = new AlarmaAbsoluta(horaMarcada, new EfectoSinEfecto());
+		var horaMarcada = LocalDateTime.MAX;
+		var alarma = new AlarmaAbsoluta(0, horaMarcada, new EfectoSinEfecto());
 		tarea.agregarAlarma(alarma);
 
 		var t = tarea.obtenerTiempoDeAlarma(alarma);

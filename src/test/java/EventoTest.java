@@ -27,8 +27,8 @@ public class EventoTest {
 		evento1.setTitulo("Evento A");
 		evento1.setDescripcion("ASDASD");
 
-		this.alarma1 = new AlarmaRelativa(Duration.ofMinutes(10), new EfectoSinEfecto());
-		this.alarma2 = new AlarmaAbsoluta(CUATRODENOVIEMBRE.minusDays(1).atTime(LocalTime.NOON), new EfectoSinEfecto());
+		this.alarma1 = new AlarmaRelativa(0, Duration.ofMinutes(10), new EfectoSinEfecto());
+		this.alarma2 = new AlarmaAbsoluta(1, CUATRODENOVIEMBRE.minusDays(1).atTime(LocalTime.NOON), new EfectoSinEfecto());
 
 		evento1.agregarAlarma(alarma1);
 		evento1.agregarAlarma(alarma2);
@@ -40,7 +40,8 @@ public class EventoTest {
 	@Test
 
 	public void repetirEventoCopiaLosAtributos() {
-		var repetidor = new RepetidorDeEventosDiario(evento1, 2, 10);
+		var generador = new GeneradorDiario(2);
+		var repetidor = new RepetidorDeEventos(evento1, new LimitadorPorCantidad(10), generador);
 
 		var eventos = repetidor.generarInstancias(0, 15);
 		var titulosRepetidos = eventos.stream()
@@ -57,7 +58,8 @@ public class EventoTest {
 	@Test
 
 	public void repetirEventoCopiaLasAlarmas() {
-		var repetidor = new RepetidorDeEventosDiario(evento1, 2, 10);
+		var generador = new GeneradorDiario(2);
+		var repetidor = new RepetidorDeEventos(evento1, new LimitadorPorCantidad(10), generador);
 
 		var eventos = repetidor.generarInstancias(0, 15);
 
@@ -79,7 +81,9 @@ public class EventoTest {
 	@Test
 
 	public void eventoEsIgualAEventoQueEmpiezaYTerminaIgualQueEste() {
-		var r = new RepetidorDeEventosDiario(this.evento1, 0, 2);
+		var generador = new GeneradorDiario(0);
+		var r = new RepetidorDeEventos(evento1, new LimitadorPorCantidad(2), generador);
+
 		var eventos = r.generarInstancias(0, 2);
 
 		assertEquals(0, eventos.get(0).compareTo(eventos.get(1)));
@@ -89,7 +93,9 @@ public class EventoTest {
 	@Test
 
 	public void eventoEsMenorlAEventoQueEmpiezaIgualPeroTerminaDespues() {
-		var r = new RepetidorDeEventosDiario(this.evento1, 0, 2);
+		var generador = new GeneradorDiario(0);
+		var r = new RepetidorDeEventos(evento1, new LimitadorPorCantidad(2), generador);
+
 		var eventos = r.generarInstancias(0, 2);
 		eventos.get(1).setDuracion(Duration.ofHours(25));
 
@@ -108,7 +114,9 @@ public class EventoTest {
 	@Test
 
 	public void generarNEventosPosterioresLosGeneraCorrectamente() {
-		var r = new RepetidorDeEventosDiario(this.evento1, 1, 20);
+		var generador = new GeneradorDiario(1);
+		var r = new RepetidorDeEventos(evento1, new LimitadorPorCantidad(20), generador);
+
 		var eventos = r.generarEventosPosteriores(100, CUATRODENOVIEMBRE.plusDays(2).atTime(LocalTime.NOON));
 
 		assertEquals(17, eventos.size());

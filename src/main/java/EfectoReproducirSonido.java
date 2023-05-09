@@ -1,7 +1,7 @@
 public class EfectoReproducirSonido implements Efecto {
 	@Override
 
-	public void realizar() {
-		// Reproducir
+	public EfectoEnum realizar() {
+		return EfectoEnum.SONIDO;
 	}
 }

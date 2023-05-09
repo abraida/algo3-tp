@@ -2,7 +2,7 @@ public class EfectoEnviarMail implements Efecto {
 
 	@Override
 
-	public void realizar() {
-		// Enviar mail
+	public EfectoEnum realizar() {
+		return EfectoEnum.EMAIL;
 	}
 }

@@ -5,7 +5,8 @@ public class AlarmaAbsoluta extends Alarma {
 
 	private final LocalDateTime tiempo;
 
-	public AlarmaAbsoluta(LocalDateTime tiempo, Efecto efecto) {
+	public AlarmaAbsoluta(long id, LocalDateTime tiempo, Efecto efecto) {
+		this.id = id;
 		this.efecto = efecto;
 		this.tiempo = tiempo;
 	}
