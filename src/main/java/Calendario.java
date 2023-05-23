@@ -1,10 +1,15 @@
+import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
+
+import java.io.*;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class Calendario {
+public class Calendario implements Serializable {
 
 	private final ArrayList<Tarea> listaDeTareas;
 
@@ -13,12 +18,14 @@ public class Calendario {
 	private long idActual;
 
 	private final CreadorDeAlarmas creadorDeAlarmas;
+	transient private  Gson gson;
 
 	public Calendario() {
 		this.idActual = 0;
 		this.listaDeTareas = new ArrayList<>();
 		this.listaDeRepetidores = new ArrayList<>();
 		this.creadorDeAlarmas = new CreadorDeAlarmas();
+		this.gson = new CreadorDeGson().crearGson();
 	}
 
 	public long crearTareaPuntual(LocalDateTime vencimiento) {
@@ -58,6 +65,7 @@ public class Calendario {
 		this.idActual++;
 		return this.idActual - 1;
 	}
+
 	public Tarea buscarTareaPorId(long id) {
 		return listaDeTareas.stream()
 				.filter(x -> x.getId() == id)
@@ -89,10 +97,10 @@ public class Calendario {
 	}
 
 	public void modificarTareaDiaCompleto(TareaDiaria tarea,
-		String titulo,
-		String descripcion,
-		LocalDate dia,
-		boolean estaCompletada) {
+										  String titulo,
+										  String descripcion,
+										  LocalDate dia,
+										  boolean estaCompletada) {
 
 		this.modificarAtributosElemento(tarea, titulo, descripcion);
 		tarea.setEstaCompletada(estaCompletada);
@@ -100,16 +108,15 @@ public class Calendario {
 	}
 
 	public void modificarTareaPuntual(TareaPuntual tarea,
-		String titulo,
-		String descripcion,
-		LocalDateTime vencimiento,
-		boolean estaCompletada) {
+									  String titulo,
+									  String descripcion,
+									  LocalDateTime vencimiento,
+									  boolean estaCompletada) {
 
 		this.modificarAtributosElemento(tarea, titulo, descripcion);
 		tarea.setEstaCompletada(estaCompletada);
 		tarea.setVencimiento(vencimiento);
 	}
-
 
 
 	public void marcarTareaComoCompletada(Tarea tarea, boolean completada) {
@@ -133,10 +140,10 @@ public class Calendario {
 	}
 
 	public boolean modificarEventoDiaCompleto(Evento evento,
-		String titulo,
-		String descripcion,
-		LocalDate fecha,
-		long duracionDias) {
+											  String titulo,
+											  String descripcion,
+											  LocalDate fecha,
+											  long duracionDias) {
 
 		var repetidor = buscarRepetidorPorIdDeEvento(evento.getId());
 
@@ -153,10 +160,10 @@ public class Calendario {
 	}
 
 	public boolean modificarEvento(Evento evento,
-		String titulo,
-		String descripcion,
-		LocalDateTime inicio,
-		Duration duracion) {
+								   String titulo,
+								   String descripcion,
+								   LocalDateTime inicio,
+								   Duration duracion) {
 
 		var repetidor = buscarRepetidorPorIdDeEvento(evento.getId());
 
@@ -214,17 +221,17 @@ public class Calendario {
 			return new ArrayList<>();
 
 		var elementos = new ArrayList<Elemento> (this.listaDeTareas.stream()
-			.filter(tarea -> tarea.esPosteriorA(tiempo) || tarea.esSimultaneoA(tiempo))
-			.sorted()
-			.toList());
+				.filter(tarea -> tarea.esPosteriorA(tiempo) || tarea.esSimultaneoA(tiempo))
+				.sorted()
+				.toList());
 
 		for (RepetidorDeEventos e: this.listaDeRepetidores) {
 			elementos.addAll(e.generarEventosPosteriores(cantidad, tiempo));
 		}
 
 		elementos = new ArrayList<>(elementos.stream()
-			.sorted()
-			.toList());
+				.sorted()
+				.toList());
 
 		if (elementos.size() == 0)
 			return new ArrayList<>();
@@ -232,4 +239,15 @@ public class Calendario {
 		return new ArrayList<>(elementos.subList(0, Math.min(cantidad, elementos.size())));
 	}
 
+	public void serializar(OutputStream os) throws IOException {
+		String json = this.gson.toJson(this);
+		os.write(json.getBytes());
+		os.flush();
+    }
+
+    public static Calendario deserializar(InputStream is) throws JsonParseException {
+		var c = new Calendario();
+		var reader = new InputStreamReader(is);
+		return c.gson.fromJson(reader, Calendario.class);
+    }
 }

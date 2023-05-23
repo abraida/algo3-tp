@@ -1,8 +1,12 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static org.junit.Assert.*;
@@ -222,5 +226,96 @@ public class CalendarioTest {
 		var alarmaID = calendario.agregarAlarmaRelativa(evento, Duration.ofMinutes(30), efectoEnum);
 
 		assertEquals(efectoEnum, evento.obtenerAlarmaPorID(alarmaID).disparar());
+	}
+
+	@Test
+	public void persistenciaFuncionaCorrectamente() throws IOException {
+		var id1 = calendario.crearTareaDiaCompleto(CUATRODENOVIEMBRE);
+		var id2 = calendario.crearTareaDiaCompleto(CUATRODENOVIEMBRE);
+		var id3 = calendario.crearEventoDiaCompleto(CUATRODENOVIEMBRE, 1);
+
+		var t1 = calendario.buscarTareaPorId(id1);
+		t1.setTitulo("t1");
+
+		var e1 = calendario.buscarEventoPorId(id3);
+		e1.setTitulo("e1");
+
+		var h = LocalDateTime.of(2023, 11, 4, 0, 0);
+
+		var alarma = new AlarmaAbsoluta(0, h, new EfectoSinEfecto());
+		t1.agregarAlarma(alarma);
+		e1.agregarAlarma(alarma);
+
+		var alarma2 = new AlarmaRelativa(1, Duration.ofMinutes(20), new EfectoEnviarMail());
+		t1.agregarAlarma(alarma2);
+		e1.agregarAlarma(alarma2);
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        calendario.serializar(bytes);
+
+        Calendario cDes = Calendario.deserializar(new ByteArrayInputStream(bytes.toByteArray()));
+
+		var t1Des = cDes.buscarTareaPorId(id1);
+		var e1Des = cDes.buscarEventoPorId(id3);
+
+        assertNotNull(cDes);
+		assertEquals(t1.getTitulo(), t1Des.getTitulo());
+		assertEquals(t1.getDescripcion(), t1Des.getDescripcion());
+		assertEquals(t1.getEstaCompletada(), t1Des.getEstaCompletada());
+
+		assertEquals(alarma.getTiempo(h), t1Des.obtenerAlarmaPorID(0).getTiempo(h));
+		assertEquals(alarma2.getTiempo(h), t1Des.obtenerAlarmaPorID(1).getTiempo(h));
+		assertEquals(alarma.efecto.realizar(), t1Des.obtenerAlarmaPorID(0).efecto.realizar());
+
+		assertEquals(e1.getTitulo(), e1Des.getTitulo());
+		assertEquals(e1.getDescripcion(), e1Des.getDescripcion());
+
+		assertEquals(alarma.getTiempo(h), e1Des.obtenerAlarmaPorID(0).getTiempo(h));
+		assertEquals(alarma2.getTiempo(h), e1Des.obtenerAlarmaPorID(1).getTiempo(h));
+		assertEquals(alarma.efecto.realizar(), e1Des.obtenerAlarmaPorID(0).efecto.realizar());
+
+    }
+
+	@Test
+	public void repeticionDeEventosFuncionaCorrectamenteConPersistencia() throws IOException {
+		var id1 = calendario.crearTareaDiaCompleto(CUATRODENOVIEMBRE.plusDays(1));
+		var id2 = calendario.crearTareaPuntual(CUATRODENOVIEMBRE.atStartOfDay().plusHours(2));
+
+		var diasActivo =  new DiasActivos(true,
+                false,
+                false,
+                true,
+                false,
+                true,
+                false);
+		var gen1 = new GeneradorSemanal(diasActivo);
+		var lim1 = new LimitadorPorFecha(CUATRODENOVIEMBRE.plusDays(8).atStartOfDay());
+		var id3 = calendario.crearEventoDiaCompleto(CUATRODENOVIEMBRE, 1L);
+
+		calendario.modificarReglaDeRepeticion(calendario.buscarEventoPorId(id3), gen1);
+		calendario.modificarCantidadDeRepeticiones(calendario.buscarEventoPorId(id3),lim1);
+
+		var gen2 = new GeneradorMensual();
+		var lim2 = new LimitadorPorCantidad(3);
+		var id4 = calendario.crearEvento(CUATRODENOVIEMBRE.plusDays(2).atTime(LocalTime.NOON), Duration.ofHours(2));
+
+		calendario.modificarReglaDeRepeticion(calendario.buscarEventoPorId(id4), gen2);
+		calendario.modificarCantidadDeRepeticiones(calendario.buscarEventoPorId(id4), lim2);
+
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        calendario.serializar(bytes);
+        Calendario cDes = Calendario.deserializar(new ByteArrayInputStream(bytes.toByteArray()));
+
+		var l = calendario.obtenerProximosElementos(7, CUATRODENOVIEMBRE.minusDays(1).atStartOfDay());
+		var lDes = cDes.obtenerProximosElementos(7, CUATRODENOVIEMBRE.minusDays(1).atStartOfDay());
+
+		assertEquals(l.get(0).getId(), lDes.get(0).getId());
+		assertEquals(l.get(1).getId(), lDes.get(1).getId());
+		assertEquals(l.get(2).getId(), lDes.get(2).getId());
+		assertEquals(l.get(3).getId(), lDes.get(3).getId());
+		assertEquals(l.get(4).getId(), lDes.get(4).getId());
+		assertEquals(l.get(5).getId(), lDes.get(5).getId());
+		assertEquals(l.size(), lDes.size());
+
 	}
 }
