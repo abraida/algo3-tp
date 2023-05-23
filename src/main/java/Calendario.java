@@ -6,8 +6,6 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
-
 
 public class Calendario implements Serializable {
 
@@ -18,7 +16,7 @@ public class Calendario implements Serializable {
 	private long idActual;
 
 	private final CreadorDeAlarmas creadorDeAlarmas;
-	transient private  Gson gson;
+	transient private final Gson gson;
 
 	public Calendario() {
 		this.idActual = 0;

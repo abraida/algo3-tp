@@ -2,7 +2,6 @@ import com.google.gson.*;
 
 import java.lang.reflect.Type;
 import java.time.*;
-import java.util.Date;
 
 public class DurationAdapter implements JsonSerializer<Duration>, JsonDeserializer<Duration> {
     @Override

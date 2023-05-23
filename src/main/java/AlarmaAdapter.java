@@ -25,7 +25,7 @@ public class AlarmaAdapter implements JsonSerializer<Alarma>, JsonDeserializer<A
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("properties");
 
-        Class<? extends Object> clase = switch (this.getCase(type)) {
+        Class<? extends Alarma> clase = switch (this.getCase(type)) {
             case 1 -> AlarmaAbsoluta.class;
             case 2 -> AlarmaRelativa.class;
             default -> throw new JsonParseException("Unknown element type for " + typeOfT + ": " + type);
