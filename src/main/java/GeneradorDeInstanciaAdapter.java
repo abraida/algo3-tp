@@ -4,7 +4,7 @@ import java.lang.reflect.Type;
 
 public class GeneradorDeInstanciaAdapter implements JsonSerializer<GeneradorDeInstancia>, JsonDeserializer<GeneradorDeInstancia> {
 
-    private int getCase(String type){
+    private int getID(String type){
         if (type.equals(GeneradorUnico.class.getSimpleName()))
             return 1;
         if (type.equals(GeneradorDiario.class.getSimpleName()))
@@ -21,7 +21,7 @@ public class GeneradorDeInstanciaAdapter implements JsonSerializer<GeneradorDeIn
     @Override
     public JsonElement serialize(GeneradorDeInstancia src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
-        result.add("type", new JsonPrimitive(src.getClass().getSimpleName()));
+        result.add("type", new JsonPrimitive(getID(src.getClass().getSimpleName())));
         result.add("properties", context.serialize(src, src.getClass()));
 
         return result;
@@ -34,12 +34,12 @@ public class GeneradorDeInstanciaAdapter implements JsonSerializer<GeneradorDeIn
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("properties");
 
-        Class<? extends GeneradorDeInstancia> clase = switch (this.getCase(type)) {
-            case 1 -> GeneradorUnico.class;
-            case 2 -> GeneradorDiario.class;
-            case 3 -> GeneradorSemanal.class;
-            case 4 -> GeneradorMensual.class;
-            case 5 -> GeneradorAnual.class;
+        Class<? extends GeneradorDeInstancia> clase = switch (type) {
+            case "1" -> GeneradorUnico.class;
+            case "2" -> GeneradorDiario.class;
+            case "3" -> GeneradorSemanal.class;
+            case "4" -> GeneradorMensual.class;
+            case "5" -> GeneradorAnual.class;
             default -> throw new JsonParseException("Unknown element type for " + typeOfT + ": " + type);
         };
 

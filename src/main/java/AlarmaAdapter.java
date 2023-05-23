@@ -1,18 +1,18 @@
 import com.google.gson.*;
 import java.lang.reflect.Type;
 public class AlarmaAdapter implements JsonSerializer<Alarma>, JsonDeserializer<Alarma> {
-    private int getCase(String type){
+    private int getID(String type){
         if (type.equals(AlarmaAbsoluta.class.getSimpleName()))
             return 1;
         if (type.equals(AlarmaRelativa.class.getSimpleName()))
             return 2;
-        return 0;
+        return -1;
     }
 
     @Override
     public JsonElement serialize(Alarma src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
-        result.add("type", new JsonPrimitive(src.getClass().getSimpleName()));
+        result.add("type", new JsonPrimitive(getID(src.getClass().getSimpleName())));
         result.add("properties", context.serialize(src, src.getClass()));
 
         return result;
@@ -25,9 +25,9 @@ public class AlarmaAdapter implements JsonSerializer<Alarma>, JsonDeserializer<A
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("properties");
 
-        Class<? extends Alarma> clase = switch (this.getCase(type)) {
-            case 1 -> AlarmaAbsoluta.class;
-            case 2 -> AlarmaRelativa.class;
+        Class<? extends Alarma> clase = switch (type) {
+            case "1" -> AlarmaAbsoluta.class;
+            case "2" -> AlarmaRelativa.class;
             default -> throw new JsonParseException("Unknown element type for " + typeOfT + ": " + type);
         };
 

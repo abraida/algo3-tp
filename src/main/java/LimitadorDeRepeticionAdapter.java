@@ -4,7 +4,7 @@ import java.lang.reflect.Type;
 
 public class LimitadorDeRepeticionAdapter implements JsonSerializer<LimitadorDeRepeticion>, JsonDeserializer<LimitadorDeRepeticion> {
 
-    private int getCase(String type){
+    private int getID(String type){
         if (type.equals(LimitadorPorCantidad.class.getSimpleName()))
             return 1;
         if (type.equals(LimitadorPorFecha.class.getSimpleName()))
@@ -17,7 +17,7 @@ public class LimitadorDeRepeticionAdapter implements JsonSerializer<LimitadorDeR
     @Override
     public JsonElement serialize(LimitadorDeRepeticion src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
-        result.add("type", new JsonPrimitive(src.getClass().getSimpleName()));
+        result.add("type", new JsonPrimitive(getID(src.getClass().getSimpleName())));
         result.add("properties", context.serialize(src, src.getClass()));
 
         return result;
@@ -30,11 +30,10 @@ public class LimitadorDeRepeticionAdapter implements JsonSerializer<LimitadorDeR
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("properties");
 
-        Class<? extends LimitadorDeRepeticion> clase = switch (this.getCase(type)) {
-            case 1 -> LimitadorPorCantidad.class;
-            case 2 -> LimitadorPorFecha.class;
-            case 3 -> LimitadorInfinito.class;
-
+        Class<? extends LimitadorDeRepeticion> clase = switch (type) {
+            case "1" -> LimitadorPorCantidad.class;
+            case "2" -> LimitadorPorFecha.class;
+            case "3" -> LimitadorInfinito.class;
             default -> throw new JsonParseException("Unknown element type: " + type);
         };
 

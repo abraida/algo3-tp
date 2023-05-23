@@ -4,7 +4,7 @@ import java.lang.reflect.Type;
 
 public class TareaAdapter implements JsonSerializer<Tarea>, JsonDeserializer<Tarea> {
 
-    private int getCase(String type){
+    private int getID(String type){
         if (type.equals(TareaDiaria.class.getSimpleName()))
             return 1;
         if (type.equals(TareaPuntual.class.getSimpleName()))
@@ -15,7 +15,7 @@ public class TareaAdapter implements JsonSerializer<Tarea>, JsonDeserializer<Tar
     @Override
     public JsonElement serialize(Tarea src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
-        result.add("type", new JsonPrimitive(src.getClass().getSimpleName()));
+        result.add("type", new JsonPrimitive(getID(src.getClass().getSimpleName())));
         result.add("properties", context.serialize(src, src.getClass()));
 
         return result;
@@ -28,9 +28,9 @@ public class TareaAdapter implements JsonSerializer<Tarea>, JsonDeserializer<Tar
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("properties");
 
-        Class<? extends Tarea> clase = switch (this.getCase(type)) {
-            case 1 -> TareaDiaria.class;
-            case 2 -> TareaPuntual.class;
+        Class<? extends Tarea> clase = switch (type) {
+            case "1" -> TareaDiaria.class;
+            case "2" -> TareaPuntual.class;
             default -> throw new JsonParseException("Unknown element type: " + type);
         };
 
