@@ -3,20 +3,20 @@ package Logic;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public  class CreadorDeAlarmas {
+public class CreadorDeAlarmas {
 
 
-    public Alarma crearAlarmaAbsoluta(LocalDateTime tiempo, EfectoEnum tipoDeEfecto){
+    public Alarma crearAlarmaAbsoluta(LocalDateTime tiempo, EfectoEnum tipoDeEfecto) {
         var efecto = crearEfecto(tipoDeEfecto);
         return new AlarmaAbsoluta(0, tiempo, efecto);
     }
 
-    public Alarma crearAlarmaRelativa(Duration antelacion, EfectoEnum tipoDeEfecto){
+    public Alarma crearAlarmaRelativa(Duration antelacion, EfectoEnum tipoDeEfecto) {
         var efecto = crearEfecto(tipoDeEfecto);
         return new AlarmaRelativa(0, antelacion, efecto);
     }
 
-    private Efecto crearEfecto(EfectoEnum tipoDeEfecto){
+    private Efecto crearEfecto(EfectoEnum tipoDeEfecto) {
         switch (tipoDeEfecto) {
 
             case NOTIFICACION -> {

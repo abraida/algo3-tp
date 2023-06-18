@@ -11,9 +11,10 @@ public class ElementoCellFactory implements Callback<ListView<Elemento>, ListCel
     ElementoCellFactory(ElementoCellCreatorVisitor visitor) {
         this.visitor = visitor;
     }
+
     @Override
     public ListCell<Elemento> call(ListView<Elemento> param) {
-        return new ListCell<>(){
+        return new ListCell<>() {
             @Override
             public void updateItem(Elemento person, boolean empty) {
                 super.updateItem(person, empty);

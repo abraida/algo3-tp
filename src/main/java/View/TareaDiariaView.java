@@ -8,6 +8,7 @@ public class TareaDiariaView extends ElementoView {
     private Label completada;
 
     private Label tipo;
+
     public TareaDiariaView(TareaDiaria tarea) {
         super(tarea);
         tipo = new Label("Tarea Diaria");

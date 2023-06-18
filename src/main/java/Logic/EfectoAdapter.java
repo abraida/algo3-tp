@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 
 public class EfectoAdapter implements JsonSerializer<Efecto>, JsonDeserializer<Efecto> {
 
-    private int getID(String type){
+    private int getID(String type) {
         if (type.equals(EfectoSinEfecto.class.getSimpleName()))
             return 1;
         if (type.equals(EfectoNotificacion.class.getSimpleName()))
@@ -29,7 +29,7 @@ public class EfectoAdapter implements JsonSerializer<Efecto>, JsonDeserializer<E
 
     @Override
     public Efecto deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-        throws JsonParseException {
+            throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("properties");

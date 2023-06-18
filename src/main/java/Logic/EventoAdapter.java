@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 
 public class EventoAdapter implements JsonSerializer<Evento>, JsonDeserializer<Evento> {
 
-    private int getID(String type){
+    private int getID(String type) {
         if (type.equals(EventoDiario.class.getSimpleName()))
             return 1;
         if (type.equals(EventoPuntual.class.getSimpleName()))
@@ -25,7 +25,7 @@ public class EventoAdapter implements JsonSerializer<Evento>, JsonDeserializer<E
 
     @Override
     public Evento deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-        throws JsonParseException {
+            throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("properties");

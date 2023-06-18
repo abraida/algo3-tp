@@ -3,7 +3,7 @@ package View;
 import Logic.TareaDiaria;
 import javafx.scene.control.Label;
 
-public class TareaDiariaCellView extends ElementoCellView{
+public class TareaDiariaCellView extends ElementoCellView {
 
     private final Label fecha;
     private final Label tipo;

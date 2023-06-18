@@ -4,9 +4,9 @@ import Logic.EventoPuntual;
 import javafx.scene.control.Label;
 
 public class EventoPuntualView extends ElementoView {
+    private final Label fin;
     private Label inicio;
     private Label tipo;
-    private final Label fin;
 
     public EventoPuntualView(EventoPuntual evento) {
         super(evento);

@@ -21,7 +21,7 @@ public class AgregarAlarmasDialogPane extends DialogPane {
 
     private Button buttonCrearAlarma = new Button("Agregar");
 
-    public AgregarAlarmasDialogPane(){
+    public AgregarAlarmasDialogPane() {
         this.getButtonTypes().addAll(ButtonType.PREVIOUS, ButtonType.FINISH, ButtonType.CANCEL);
         this.setContent(root);
         root.setHgap(10);
@@ -49,13 +49,14 @@ public class AgregarAlarmasDialogPane extends DialogPane {
         root.add(dias, 1, 2);
         root.add(horas, 2, 2);
         root.add(minutos, 3, 2);
-        root.add(buttonCrearAlarma, 0, 3, 4,1);
+        root.add(buttonCrearAlarma, 0, 3, 4, 1);
     }
 
-    public void setAlarmaTreeView(AlarmaTreeView alarmasView){
+    public void setAlarmaTreeView(AlarmaTreeView alarmasView) {
         this.alarmaTreeView = alarmasView;
         root.add(alarmasView, 0, 0, 4, 1);
     }
+
     public void registrarPreviousButtonAction(EventHandler<ActionEvent> e) {
         Button b = (Button) this.lookupButton(ButtonType.PREVIOUS);
         b.addEventFilter(ActionEvent.ACTION, e);

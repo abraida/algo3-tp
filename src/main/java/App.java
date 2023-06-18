@@ -1,14 +1,13 @@
 import Controller.ElementoListController;
 import Controller.ElementoMenuController;
 import Controller.ElementoPaneController;
-
 import Controller.RealizadorDeAlarmas;
-import Model.ElementoModel;
 import Logic.Calendario;
+import Model.ElementoModel;
 import Model.NotificacionModel;
 import Model.NuevoElementoModelFactory;
-import View.ElementoMenuView;
 import View.ElementoListView;
+import View.ElementoMenuView;
 import View.ElementoPane;
 import View.RootView;
 import javafx.animation.AnimationTimer;
@@ -17,12 +16,15 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.time.LocalDateTime;
 
 public class App extends Application {
     Calendario calendario;
     String path = System.getProperty("user.dir") + "/data.txt";
     NotificacionModel notificacionModel;
+
+    public static void main(String[] args) {
+        launch();
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -32,7 +34,7 @@ public class App extends Application {
         var nuevoElementoModelFactory = new NuevoElementoModelFactory(calendario);
 
         ElementoListView elementoListView = new ElementoListView(elementoModel);
-        ElementoPane elementoPane =  new ElementoPane();
+        ElementoPane elementoPane = new ElementoPane();
         ElementoMenuView elementoMenuView = new ElementoMenuView(elementoModel);
         RootView view = new RootView(elementoListView, elementoPane, elementoMenuView);
 
@@ -76,22 +78,16 @@ public class App extends Application {
 
     private void crearAnimatioTimer() {
         new AnimationTimer() {
-            private long ultimaActualizacion = 0 ;
+            private long ultimaActualizacion = 0;
 
             @Override
             public void handle(long now) {
-                    if (now - ultimaActualizacion >= 2_000_000_000) {
-                        notificacionModel.sonarAlarma(new RealizadorDeAlarmas());
-                        ultimaActualizacion = now ;
-                    }
+                if (now - ultimaActualizacion >= 2_000_000_000) {
+                    notificacionModel.sonarAlarma(new RealizadorDeAlarmas());
+                    ultimaActualizacion = now;
+                }
             }
         }.start();
-    }
-
-
-
-    public static void main(String[] args) {
-        launch();
     }
 
 }

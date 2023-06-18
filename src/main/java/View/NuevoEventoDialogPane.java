@@ -62,7 +62,7 @@ public class NuevoEventoDialogPane extends NuevoElementoDialogPane {
 
         root.add(new Label("Titulo:"), 0, 0);
         root.add(titulo, 1, 0, 2, 1);
-        root.add(descripcion, 0, 1,3, 1);
+        root.add(descripcion, 0, 1, 3, 1);
         root.add(new Label("Inicio:"), 0, 2);
         root.add(fechaInicio, 1, 2, 1, 1);
         root.add(horaInicio, 2, 2);
@@ -71,7 +71,7 @@ public class NuevoEventoDialogPane extends NuevoElementoDialogPane {
         root.add(fechaFin, 1, 3);
         root.add(horaFin, 2, 3);
         root.add(minutoFin, 3, 3);
-        root.add(esDiaCompleto,0, 4);
+        root.add(esDiaCompleto, 0, 4);
         root.add(conRepeticion, 1, 4);
         root.add(dias, 2, 4);
 
@@ -104,6 +104,7 @@ public class NuevoEventoDialogPane extends NuevoElementoDialogPane {
     public void registrarConRepeticionListener(ChangeListener<Boolean> listener) {
         this.conRepeticion.selectedProperty().addListener(listener);
     }
+
     @Override
     public void ocultarHora() {
         esDiaCompleto.setSelected(true);
@@ -121,6 +122,7 @@ public class NuevoEventoDialogPane extends NuevoElementoDialogPane {
         root.add(horaFin, 2, 3);
         root.add(minutoFin, 3, 3);
     }
+
     @Override
     public boolean estanCamposObligatoriosDiaCompleto() {
         return fechaInicio.getValue() != null &&

@@ -3,7 +3,7 @@ package View;
 import Logic.EventoPuntual;
 import javafx.scene.control.Label;
 
-public class EventoPuntualCellView extends ElementoCellView{
+public class EventoPuntualCellView extends ElementoCellView {
 
     private final Label inicio;
     private final Label tipo;

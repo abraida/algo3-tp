@@ -3,8 +3,9 @@ package Logic;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
+
 public class AlarmaAdapter implements JsonSerializer<Alarma>, JsonDeserializer<Alarma> {
-    private int getID(String type){
+    private int getID(String type) {
         if (type.equals(AlarmaAbsoluta.class.getSimpleName()))
             return 1;
         if (type.equals(AlarmaRelativa.class.getSimpleName()))
@@ -23,7 +24,7 @@ public class AlarmaAdapter implements JsonSerializer<Alarma>, JsonDeserializer<A
 
     @Override
     public Alarma deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-        throws JsonParseException {
+            throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("properties");

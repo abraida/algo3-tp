@@ -1,6 +1,6 @@
 package Logic;
 
-public class LimitadorPorCantidad implements LimitadorDeRepeticion{
+public class LimitadorPorCantidad implements LimitadorDeRepeticion {
     private long repeticiones;
 
     public LimitadorPorCantidad(long repeticiones) {

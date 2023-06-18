@@ -11,72 +11,72 @@ import java.time.LocalDateTime;
 import static org.junit.Assert.assertEquals;
 
 public class ElementoTest {
-@Test
+    @Test
 
-	public void modificarTituloConCadenaVacia() {
-		var fecha = LocalDate.MAX;
-		var tarea = new TareaDiaria("", "", fecha);
+    public void modificarTituloConCadenaVacia() {
+        var fecha = LocalDate.MAX;
+        var tarea = new TareaDiaria("", "", fecha);
 
-		tarea.setTitulo("");
-		var titulo = tarea.getTitulo();
+        tarea.setTitulo("");
+        var titulo = tarea.getTitulo();
 
-		assertEquals("", titulo);
-	}
+        assertEquals("", titulo);
+    }
 
-	@Test
+    @Test
 
-	public void modificarTituloFuncionaCorrectamente() {
-		var fecha = LocalDate.MAX;
-		var tarea = new TareaDiaria("", "", fecha);
+    public void modificarTituloFuncionaCorrectamente() {
+        var fecha = LocalDate.MAX;
+        var tarea = new TareaDiaria("", "", fecha);
 
-		tarea.setTitulo("Nombre B1");
-		var titulo = tarea.getTitulo();
+        tarea.setTitulo("Nombre B1");
+        var titulo = tarea.getTitulo();
 
-		assertEquals("Nombre B1", titulo);
-	}
+        assertEquals("Nombre B1", titulo);
+    }
 
-	@Test
+    @Test
 
-	public void modificarDescripcionConCadenaVacia() {
-		var fecha = LocalDate.MAX;
-		var tarea = new TareaDiaria("", "", fecha);
+    public void modificarDescripcionConCadenaVacia() {
+        var fecha = LocalDate.MAX;
+        var tarea = new TareaDiaria("", "", fecha);
 
-		tarea.setDescripcion("");
-		var descripcion = tarea.getDescripcion();
+        tarea.setDescripcion("");
+        var descripcion = tarea.getDescripcion();
 
-		assertEquals("", descripcion);
-	}
+        assertEquals("", descripcion);
+    }
 
-	@Test
+    @Test
 
-	public void modificarDescripcionFuncionaCorrectamente() {
-		var fecha = LocalDate.MAX;
-		var tarea = new TareaDiaria("", "", fecha);
+    public void modificarDescripcionFuncionaCorrectamente() {
+        var fecha = LocalDate.MAX;
+        var tarea = new TareaDiaria("", "", fecha);
 
-		tarea.setDescripcion("aaaaaaaaaaaaaa \n\n\n 000000000000000");
-		var descripcion = tarea.getDescripcion();
+        tarea.setDescripcion("aaaaaaaaaaaaaa \n\n\n 000000000000000");
+        var descripcion = tarea.getDescripcion();
 
-		assertEquals("aaaaaaaaaaaaaa \n\n\n 000000000000000", descripcion);
-	}
+        assertEquals("aaaaaaaaaaaaaa \n\n\n 000000000000000", descripcion);
+    }
 
-	@Test
+    @Test
 
-	public void modificarEstadoFuncionaCorrectamente() {
-		var fecha = LocalDate.MAX;
-		var tarea = new TareaDiaria("", "", fecha);
+    public void modificarEstadoFuncionaCorrectamente() {
+        var fecha = LocalDate.MAX;
+        var tarea = new TareaDiaria("", "", fecha);
 
-		tarea.setEstaCompletada(true);
-		var estado = tarea.getEstaCompletada();
+        tarea.setEstaCompletada(true);
+        var estado = tarea.getEstaCompletada();
 
-		assertEquals(true, estado);
-	}
+        assertEquals(true, estado);
+    }
 
     @Test
 
     public void puedoAgregarVariasAlarmasAElemento() {
         var fecha = LocalDate.MAX;
         var creador = new CreadorDeAlarmas();
-		var tarea = new TareaDiaria("", "", fecha);
+        var tarea = new TareaDiaria("", "", fecha);
 
         var fechaAlarma = LocalDateTime.MIN;
         var id1 = tarea.agregarAlarma(creador.crearAlarmaAbsoluta(fechaAlarma, EfectoEnum.EMAIL));

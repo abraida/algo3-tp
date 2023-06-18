@@ -3,7 +3,7 @@ package View;
 import Logic.TareaPuntual;
 import javafx.scene.control.Label;
 
-public class TareaPuntualCellView extends ElementoCellView{
+public class TareaPuntualCellView extends ElementoCellView {
 
     private final Label vencimiento;
     private final Label tipo;

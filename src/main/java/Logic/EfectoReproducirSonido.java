@@ -3,14 +3,14 @@ package Logic;
 import Controller.EfectoVisitor;
 
 public class EfectoReproducirSonido implements Efecto {
-	@Override
+    @Override
 
-	public EfectoEnum realizar() {
-		return EfectoEnum.SONIDO;
-	}
+    public EfectoEnum realizar() {
+        return EfectoEnum.SONIDO;
+    }
 
-	@Override
-	public void recibir(EfectoVisitor v) {
-		v.visitarEfectoSonido(this);
-	}
+    @Override
+    public void recibir(EfectoVisitor v) {
+        v.visitarEfectoSonido(this);
+    }
 }

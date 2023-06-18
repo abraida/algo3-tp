@@ -6,33 +6,35 @@ import java.time.LocalDateTime;
 
 
 public abstract class Alarma implements Identificable {
-	protected Efecto efecto;
-	protected long id;
-	private boolean fueRealizada = false;
+    protected Efecto efecto;
+    protected long id;
+    private boolean fueRealizada = false;
 
-	public Alarma(Efecto efecto){
-		this.efecto = efecto;
-	}
-	public abstract LocalDateTime getTiempo(LocalDateTime tiempo);
+    public Alarma(Efecto efecto) {
+        this.efecto = efecto;
+    }
 
-	public EfectoEnum disparar() {
-		return this.efecto.realizar();
-	}
+    public abstract LocalDateTime getTiempo(LocalDateTime tiempo);
 
-	public void recibir(EfectoVisitor v){
-		if (!fueRealizada){
-			this.efecto.recibir(v);
-			fueRealizada = true;
-		}
-	}
-	@Override
-	public long getID() {
-		return this.id;
-	}
+    public EfectoEnum disparar() {
+        return this.efecto.realizar();
+    }
 
-	@Override
-	public void setID(long id) {
-		this.id = id;
-	}
+    public void recibir(EfectoVisitor v) {
+        if (!fueRealizada) {
+            this.efecto.recibir(v);
+            fueRealizada = true;
+        }
+    }
+
+    @Override
+    public long getID() {
+        return this.id;
+    }
+
+    @Override
+    public void setID(long id) {
+        this.id = id;
+    }
 
 }

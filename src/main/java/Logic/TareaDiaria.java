@@ -9,39 +9,40 @@ import java.time.LocalTime;
 
 public class TareaDiaria extends Tarea {
 
-	private LocalDate fecha;
+    private LocalDate fecha;
 
-	public TareaDiaria(String titulo, String descripcion, LocalDate fecha){
-		super(titulo, descripcion);
-		this.fecha = fecha;
-	}
+    public TareaDiaria(String titulo, String descripcion, LocalDate fecha) {
+        super(titulo, descripcion);
+        this.fecha = fecha;
+    }
 
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
-	}
-	public LocalDate getFecha() {
-		return this.fecha;
-	}
+    public LocalDate getFecha() {
+        return this.fecha;
+    }
 
-	@Override
-	public LocalDateTime getInicio() {
-		return fecha.atStartOfDay();
-	}
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
 
-	@Override
-	public LocalDateTime getFin() {
-		return fecha.atTime(LocalTime.MAX);
-	}
+    @Override
+    public LocalDateTime getInicio() {
+        return fecha.atStartOfDay();
+    }
 
-	@Override
+    @Override
+    public LocalDateTime getFin() {
+        return fecha.atTime(LocalTime.MAX);
+    }
 
-	public LocalDateTime obtenerTiempoDeAlarma(Alarma alarma) {
-		return alarma.getTiempo(this.fecha.atStartOfDay());
-	}
+    @Override
 
-	@Override
-	public void aceptar(ElementoVisitor visitor) {
-		visitor.visitarTareaDiaria(this);
-	}
+    public LocalDateTime obtenerTiempoDeAlarma(Alarma alarma) {
+        return alarma.getTiempo(this.fecha.atStartOfDay());
+    }
+
+    @Override
+    public void aceptar(ElementoVisitor visitor) {
+        visitor.visitarTareaDiaria(this);
+    }
 
 }

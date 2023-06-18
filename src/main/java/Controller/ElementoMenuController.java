@@ -1,8 +1,8 @@
 package Controller;
 
+import Logic.PeriodoEnum;
 import Model.ElementoModel;
 import Model.NuevoElementoModelFactory;
-import Logic.PeriodoEnum;
 import View.ElementoMenuView;
 
 public class ElementoMenuController {
@@ -24,16 +24,16 @@ public class ElementoMenuController {
         initModel();
     }
 
-    public void initView(){
-        menuView.registrarNextButtonAccion(e ->{
+    public void initView() {
+        menuView.registrarNextButtonAccion(e -> {
             model.setPaginaActual(model.getPaginaActual() + 1);
         });
 
-        menuView.registrarPreviousButtonAccion(e ->{
+        menuView.registrarPreviousButtonAccion(e -> {
             model.setPaginaActual(model.getPaginaActual() - 1);
         });
 
-        menuView.registrarTodayButtonAccion(e ->{
+        menuView.registrarTodayButtonAccion(e -> {
             model.setPaginaActual(0);
         });
 
@@ -58,11 +58,11 @@ public class ElementoMenuController {
         });
 
         model.getPeriodoProperty().addListener((obs, old, n) -> {
-            if(n != null) {
+            if (n != null) {
                 menuView.toogleGroup.getToggles()
                         .stream()
-                        .filter( (rb) -> rb.getProperties().get(PeriodoEnum.getEnumName()).equals(n) )
-                        .forEach( menuView.toogleGroup::selectToggle );
+                        .filter((rb) -> rb.getProperties().get(PeriodoEnum.getEnumName()).equals(n))
+                        .forEach(menuView.toogleGroup::selectToggle);
             }
         });
     }

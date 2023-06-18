@@ -3,7 +3,7 @@ package View;
 import Logic.EventoDiario;
 import javafx.scene.control.Label;
 
-public class EventoDiarioCellView extends ElementoCellView{
+public class EventoDiarioCellView extends ElementoCellView {
 
     private final Label inicio;
     private final Label tipo;

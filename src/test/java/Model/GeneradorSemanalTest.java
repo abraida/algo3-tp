@@ -1,7 +1,6 @@
 package Model;
 
 import Logic.*;
-
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -10,12 +9,12 @@ import static org.junit.Assert.assertEquals;
 
 public class GeneradorSemanalTest {
     private final LocalDate CUATRODENOVIEMBRE = LocalDate.parse("2023-11-04");
-	private final LocalDate CINCODENOVIEMBRE = LocalDate.parse("2023-11-05");
+    private final LocalDate CINCODENOVIEMBRE = LocalDate.parse("2023-11-05");
 
     @Test
     public void EventoSemanalSeGeneraLasVecesEspecificadas() {
-		var evento = new EventoDiario("", "", CUATRODENOVIEMBRE, CINCODENOVIEMBRE );
-        var diasActivo =  new DiasActivos(false,
+        var evento = new EventoDiario("", "", CUATRODENOVIEMBRE, CINCODENOVIEMBRE);
+        var diasActivo = new DiasActivos(false,
                 false,
                 true,
                 false,
@@ -34,8 +33,8 @@ public class GeneradorSemanalTest {
 
     @Test
     public void EventoSemanalSeGeneraConLaFrecuenciaEspecificada() {
-		var evento = new EventoDiario("", "", CUATRODENOVIEMBRE, CINCODENOVIEMBRE );
-        var diasActivo =  new DiasActivos(false,
+        var evento = new EventoDiario("", "", CUATRODENOVIEMBRE, CINCODENOVIEMBRE);
+        var diasActivo = new DiasActivos(false,
                 true,
                 false,
                 false,
@@ -57,9 +56,9 @@ public class GeneradorSemanalTest {
 
     @Test
     public void EventoSemanalNoSeUsaElDiaOriginalSiNoEsUnDiaDeRepeticion() {
-		var evento = new EventoDiario("", "", CUATRODENOVIEMBRE, CINCODENOVIEMBRE );
+        var evento = new EventoDiario("", "", CUATRODENOVIEMBRE, CINCODENOVIEMBRE);
 
-        var diasActivo =  new DiasActivos(false,
+        var diasActivo = new DiasActivos(false,
                 true,
                 false,
                 false,
@@ -82,9 +81,9 @@ public class GeneradorSemanalTest {
 
     @Test
     public void generarInstanciasDeEventoSemanalDevuelveLasPedidas() {
-		var evento = new EventoDiario("", "", CUATRODENOVIEMBRE, CINCODENOVIEMBRE );
+        var evento = new EventoDiario("", "", CUATRODENOVIEMBRE, CINCODENOVIEMBRE);
 
-        var diasActivo =  new DiasActivos(false,
+        var diasActivo = new DiasActivos(false,
                 true,
                 false,
                 false,
@@ -95,7 +94,6 @@ public class GeneradorSemanalTest {
         var repetidor = new RepetidorDeEventos(evento,
                 new LimitadorPorCantidad(12),
                 generador);
-
 
 
         var lista = repetidor.generarInstancias(0, 3);

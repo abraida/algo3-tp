@@ -1,6 +1,9 @@
 package Model;
 
-import Logic.*;
+import Logic.EventoDiario;
+import Logic.GeneradorMensual;
+import Logic.LimitadorPorCantidad;
+import Logic.RepetidorDeEventos;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -9,11 +12,11 @@ import static org.junit.Assert.assertEquals;
 
 public class GeneradorMensualTest {
     private final LocalDate CUATRODENOVIEMBRE = LocalDate.parse("2023-11-04");
-	private final LocalDate CINCODENOVIEMBRE = LocalDate.parse("2023-11-05");
+    private final LocalDate CINCODENOVIEMBRE = LocalDate.parse("2023-11-05");
 
     @Test
     public void EventoDiarioSeGeneraLasVecesEspecificadas() {
-		var evento = new EventoDiario("", "", CUATRODENOVIEMBRE, CINCODENOVIEMBRE );
+        var evento = new EventoDiario("", "", CUATRODENOVIEMBRE, CINCODENOVIEMBRE);
 
         var generador = new GeneradorMensual();
         var repetidor = new RepetidorDeEventos(evento, new LimitadorPorCantidad(12), generador);
@@ -25,7 +28,7 @@ public class GeneradorMensualTest {
 
     @Test
     public void EventoMensualSeGeneraCadaUnMesTodosLosMeses() {
-		var evento = new EventoDiario("", "", CUATRODENOVIEMBRE, CINCODENOVIEMBRE );
+        var evento = new EventoDiario("", "", CUATRODENOVIEMBRE, CINCODENOVIEMBRE);
         var generador = new GeneradorMensual();
         var repetidor = new RepetidorDeEventos(evento, new LimitadorPorCantidad(3), generador);
 

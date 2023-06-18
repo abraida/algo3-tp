@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 
 public class GeneradorDeInstanciaAdapter implements JsonSerializer<GeneradorDeInstancia>, JsonDeserializer<GeneradorDeInstancia> {
 
-    private int getID(String type){
+    private int getID(String type) {
         if (type.equals(GeneradorUnico.class.getSimpleName()))
             return 1;
         if (type.equals(GeneradorDiario.class.getSimpleName()))
@@ -31,7 +31,7 @@ public class GeneradorDeInstanciaAdapter implements JsonSerializer<GeneradorDeIn
 
     @Override
     public GeneradorDeInstancia deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-        throws JsonParseException {
+            throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("properties");

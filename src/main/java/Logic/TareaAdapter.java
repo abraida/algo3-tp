@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 
 public class TareaAdapter implements JsonSerializer<Tarea>, JsonDeserializer<Tarea> {
 
-    private int getID(String type){
+    private int getID(String type) {
         if (type.equals(TareaDiaria.class.getSimpleName()))
             return 1;
         if (type.equals(TareaPuntual.class.getSimpleName()))
@@ -25,7 +25,7 @@ public class TareaAdapter implements JsonSerializer<Tarea>, JsonDeserializer<Tar
 
     @Override
     public Tarea deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-        throws JsonParseException {
+            throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("properties");

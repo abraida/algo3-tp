@@ -12,13 +12,14 @@ public abstract class NuevoElementoModel {
     protected Elemento elemento;
     protected Calendario calendario;
 
-    public NuevoElementoModel(Calendario calendario){
+    public NuevoElementoModel(Calendario calendario) {
         this.calendario = calendario;
     }
 
     public Elemento getElemento() {
         return elemento;
     }
+
     public void crearAlarma(long dias, int horas, int minutos) {
         var antelacion = Duration.ofDays(dias).plusHours(horas).plusMinutes(minutos);
         AlarmaRelativa a = new AlarmaRelativa(antelacion, new EfectoNotificacion());

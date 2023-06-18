@@ -13,6 +13,7 @@ public abstract class NuevoElementoDialogPane extends DialogPane {
     TextArea descripcion = new TextArea();
     CheckBox esDiaCompleto = new CheckBox("Dia completo");
     GridPane root = new GridPane();
+
     public NuevoElementoDialogPane() {
         this.getButtonTypes().addAll(ButtonType.NEXT, ButtonType.CANCEL);
 
@@ -44,7 +45,9 @@ public abstract class NuevoElementoDialogPane extends DialogPane {
     public abstract boolean estanCamposObligatoriosDiaCompleto();
 
     public abstract boolean estanCamposObligatoriosPuntual();
+
     public abstract void mostrarHora();
+
     public abstract void ocultarHora();
 
 }

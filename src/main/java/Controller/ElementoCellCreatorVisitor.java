@@ -1,12 +1,16 @@
 package Controller;
 
-import Logic.*;
+import Logic.EventoDiario;
+import Logic.EventoPuntual;
+import Logic.TareaDiaria;
+import Logic.TareaPuntual;
 import View.*;
 import javafx.scene.layout.Pane;
 
 
 public class ElementoCellCreatorVisitor implements ElementoVisitor {
     private ElementoCellView view;
+
     @Override
     public void visitarTareaPuntual(TareaPuntual tarea) {
         view = new TareaPuntualCellView(tarea);
@@ -30,7 +34,7 @@ public class ElementoCellCreatorVisitor implements ElementoVisitor {
     }
 
 
-    public Pane crearVista(){
+    public Pane crearVista() {
         return this.view;
     }
 

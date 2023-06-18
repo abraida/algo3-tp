@@ -6,11 +6,13 @@ import java.util.ArrayList;
 
 public interface Alarmable {
 
-	long agregarAlarma(Alarma alarma);
+    long agregarAlarma(Alarma alarma);
 
-	boolean eliminarAlarmaPorID(long alarmaID);
+    boolean eliminarAlarmaPorID(long alarmaID);
 
-	Alarma obtenerAlarmaPorID(long alarmaID);
-	LocalDateTime obtenerTiempoDeAlarma(Alarma alarma);
-	ArrayList<Alarma> obtenerAlarmas();
+    Alarma obtenerAlarmaPorID(long alarmaID);
+
+    LocalDateTime obtenerTiempoDeAlarma(Alarma alarma);
+
+    ArrayList<Alarma> obtenerAlarmas();
 }

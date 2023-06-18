@@ -1,7 +1,7 @@
 package Controller;
 
-import Model.ElementoModel;
 import Logic.Elemento;
+import Model.ElementoModel;
 import javafx.scene.control.ListView;
 
 public class ElementoListController {
@@ -21,13 +21,14 @@ public class ElementoListController {
         initModel();
     }
 
-    public void initView(){
+    public void initView() {
         listView.setItems(model.getListaDeElementos());
         listView.setCellFactory(elementoCellFactory);
 
         listView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
                 model.setElementoActual(newSelection));
     }
+
     public void initModel() {
         model.getElementoActualProperty().addListener((obs, oldPerson, newPerson) -> {
             if (newPerson == null) {

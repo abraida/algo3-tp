@@ -13,7 +13,7 @@ public class ElementoPane extends ScrollPane {
         this.setHbarPolicy(ScrollBarPolicy.NEVER);
         this.setFitToWidth(true);
         this.setPrefWidth(500);
-        this.setPadding(new Insets(5, 20, 5 ,20));
+        this.setPadding(new Insets(5, 20, 5, 20));
         this.root = new VBox();
         this.setContent(root);
     }

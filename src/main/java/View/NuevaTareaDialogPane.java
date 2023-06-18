@@ -11,6 +11,7 @@ public class NuevaTareaDialogPane extends NuevoElementoDialogPane {
     Spinner<Integer> horaTareaPuntual = new Spinner<>();
     Spinner<Integer> minutoTareaPuntual = new Spinner<>();
     Label labelVencimiento;
+
     public NuevaTareaDialogPane() {
         super();
         crearPanel();
@@ -37,15 +38,16 @@ public class NuevaTareaDialogPane extends NuevoElementoDialogPane {
 
         root.add(new Label("Titulo:"), 0, 0);
         root.add(titulo, 1, 0, 2, 1);
-        root.add(descripcion, 0, 1,3, 1);
+        root.add(descripcion, 0, 1, 3, 1);
         root.add(new Label("Fecha:"), 0, 2);
         root.add(fecha, 1, 2, 2, 1);
         root.add(labelVencimiento, 0, 3);
         root.add(horaTareaPuntual, 1, 3);
         root.add(minutoTareaPuntual, 2, 3);
-        root.add(esDiaCompleto,0, 4, 3, 1);
+        root.add(esDiaCompleto, 0, 4, 3, 1);
 
     }
+
     public void ocultarHora() {
         this.root.getChildren().remove(this.horaTareaPuntual);
         this.root.getChildren().remove(this.minutoTareaPuntual);

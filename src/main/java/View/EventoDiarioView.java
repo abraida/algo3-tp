@@ -4,9 +4,9 @@ import Logic.EventoDiario;
 import javafx.scene.control.Label;
 
 public class EventoDiarioView extends ElementoView {
+    private final Label fin;
     private Label inicio;
     private Label tipo;
-    private final Label fin;
 
     public EventoDiarioView(EventoDiario evento) {
         super(evento);

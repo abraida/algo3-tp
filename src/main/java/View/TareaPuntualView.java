@@ -9,7 +9,6 @@ public class TareaPuntualView extends ElementoView {
     private Label tipo;
 
 
-
     public TareaPuntualView(TareaPuntual tarea) {
         super(tarea);
         tipo = new Label("Tarea");

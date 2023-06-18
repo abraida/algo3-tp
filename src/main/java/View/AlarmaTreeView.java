@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 
 public class AlarmaTreeView extends VBox {
     Alarmable alarmable;
+
     public AlarmaTreeView(Alarmable alarmable) {
         super();
         this.alarmable = alarmable;
@@ -16,7 +17,7 @@ public class AlarmaTreeView extends VBox {
         TreeItem<String> root = new TreeItem<>("Alarmas");
         tv.setShowRoot(false);
 
-        for (Alarma alarma: alarmable.obtenerAlarmas()) {
+        for (Alarma alarma : alarmable.obtenerAlarmas()) {
             TreeItem<String> nombreAlarma = new TreeItem<>("Alarma N°" + alarma.getID());
             TreeItem<String> horaAlarma = new TreeItem<String>("Hora: " + alarmable.obtenerTiempoDeAlarma(alarma));
             TreeItem<String> efectoAlarma = new TreeItem<String>("Efecto: " + alarma.disparar());

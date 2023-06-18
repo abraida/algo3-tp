@@ -25,6 +25,6 @@ public class NuevaTareaModel extends NuevoElementoModel {
 
     @Override
     public void mandarACalendario() {
-        calendario.agregarTarea((Tarea)elemento);
+        calendario.agregarTarea((Tarea) elemento);
     }
 }

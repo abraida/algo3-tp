@@ -19,7 +19,7 @@ public class LocalDateTimeAdapter implements JsonSerializer<LocalDateTime>, Json
 
     @Override
     public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-        throws JsonParseException {
+            throws JsonParseException {
 
         return Instant.
                 ofEpochMilli(json.getAsLong()).

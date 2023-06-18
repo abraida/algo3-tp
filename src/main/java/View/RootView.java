@@ -17,7 +17,7 @@ public class RootView {
 
     public RootView(ElementoListView elementoListView, ElementoPane elementoPane, ElementoMenuView elementoMenuView) {
         this.listView = elementoListView;
-        this.elementoPane =  elementoPane;
+        this.elementoPane = elementoPane;
         this.menuView = elementoMenuView;
 
         crearVista();
@@ -38,10 +38,8 @@ public class RootView {
     }
 
     public Parent asParent() {
-        return this.root ;
+        return this.root;
     }
-
-
 
 
 }

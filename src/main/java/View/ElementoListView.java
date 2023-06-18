@@ -1,7 +1,7 @@
 package View;
 
-import Model.ElementoModel;
 import Logic.Elemento;
+import Model.ElementoModel;
 import javafx.scene.control.ListView;
 
 public class ElementoListView extends ListView<Elemento> {

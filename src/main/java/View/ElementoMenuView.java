@@ -1,7 +1,7 @@
 package View;
 
-import Model.ElementoModel;
 import Logic.PeriodoEnum;
+import Model.ElementoModel;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,16 +11,15 @@ import javafx.scene.layout.VBox;
 
 public class ElementoMenuView extends VBox {
 
+    public ToggleGroup toogleGroup;
     private ElementoModel model;
     private HBox pagination;
-
     private ToolBar toolBar;
-    public ToggleGroup toogleGroup;
     private Button buttonCrearEvento;
     private Button buttonCrearTarea;
 
     private Button buttonNext;
-    private  Button buttonToday;
+    private Button buttonToday;
     private Button buttonPrevious;
 
     public ElementoMenuView(ElementoModel elementoModel) {

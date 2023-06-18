@@ -21,15 +21,15 @@ public class NotificacionModel {
         elementos = calendario.obtenerProximosElementos(1000, ahora);
     }
 
-    public void sonarAlarma(RealizadorDeAlarmas realizador){
+    public void sonarAlarma(RealizadorDeAlarmas realizador) {
         ahora = LocalDateTime.now();
         elementos = calendario.obtenerProximosElementos(1000, ahora);
 
-        for (Alarmable e: elementos){
+        for (Alarmable e : elementos) {
             var alarmas = e.obtenerAlarmas();
-            for(Alarma a: alarmas){
-                if(e.obtenerTiempoDeAlarma(a).truncatedTo(ChronoUnit.MINUTES).
-                        isEqual(ahora.truncatedTo(ChronoUnit.MINUTES))){
+            for (Alarma a : alarmas) {
+                if (e.obtenerTiempoDeAlarma(a).truncatedTo(ChronoUnit.MINUTES).
+                        isEqual(ahora.truncatedTo(ChronoUnit.MINUTES))) {
                     a.recibir(realizador);
                 }
             }

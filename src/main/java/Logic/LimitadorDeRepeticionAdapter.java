@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 
 public class LimitadorDeRepeticionAdapter implements JsonSerializer<LimitadorDeRepeticion>, JsonDeserializer<LimitadorDeRepeticion> {
 
-    private int getID(String type){
+    private int getID(String type) {
         if (type.equals(LimitadorPorCantidad.class.getSimpleName()))
             return 1;
         if (type.equals(LimitadorPorFecha.class.getSimpleName()))
@@ -27,7 +27,7 @@ public class LimitadorDeRepeticionAdapter implements JsonSerializer<LimitadorDeR
 
     @Override
     public LimitadorDeRepeticion deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-        throws JsonParseException {
+            throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         String type = jsonObject.get("type").getAsString();
         JsonElement element = jsonObject.get("properties");

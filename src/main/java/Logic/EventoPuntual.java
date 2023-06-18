@@ -6,56 +6,59 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class EventoPuntual extends Evento {
-	private LocalDateTime inicio;
-	private LocalDateTime fin;
+    private LocalDateTime inicio;
+    private LocalDateTime fin;
 
-	public void setFin(LocalDateTime fin) {
-		this.fin = fin;
-	}
-	public void setInicio(LocalDateTime inicio) {
-		this.inicio = inicio;
-	}
+    public EventoPuntual(String titulo, String descripcion, LocalDateTime inicio, LocalDateTime fin) {
+        super(titulo, descripcion);
+        this.inicio = inicio;
+        this.fin = fin;
+    }
 
-	public LocalDateTime getInicio() {
-		return inicio;
-	}
+    public EventoPuntual(String titulo, String descripcion, LocalDateTime inicio, Duration duracion) {
+        super(titulo, descripcion);
+        this.inicio = inicio;
+        this.fin = inicio.plus(duracion);
+    }
 
-	public LocalDateTime getFin() {
-		return fin;
-	}
+    public LocalDateTime getInicio() {
+        return inicio;
+    }
 
-	public EventoPuntual(String titulo, String descripcion, LocalDateTime inicio, LocalDateTime fin) {
-		super(titulo, descripcion);
-		this.inicio = inicio;
-		this.fin = fin;
-	}
+    public void setInicio(LocalDateTime inicio) {
+        this.inicio = inicio;
+    }
 
-	public EventoPuntual(String titulo, String descripcion, LocalDateTime inicio, Duration duracion) {
-		super(titulo, descripcion);
-		this.inicio = inicio;
-		this.fin = inicio.plus(duracion);
-	}
-	@Override
-	public Evento crearCopiaDesplazada(LocalDateTime inicio) {
-		var fin = inicio.plus(Duration.between(this.inicio, this.fin));
-		var e = new EventoPuntual(this.getTitulo(), this.getDescripcion(), inicio, fin);
-		e.setID(this.getID());
+    public LocalDateTime getFin() {
+        return fin;
+    }
 
-		for (Alarma alarma: this.alarmas) {
-			e.agregarAlarma(alarma);
-		}
+    public void setFin(LocalDateTime fin) {
+        this.fin = fin;
+    }
 
-		return e;
-	}
+    @Override
+    public Evento crearCopiaDesplazada(LocalDateTime inicio) {
+        var fin = inicio.plus(Duration.between(this.inicio, this.fin));
+        var e = new EventoPuntual(this.getTitulo(), this.getDescripcion(), inicio, fin);
+        e.setID(this.getID());
 
-	@Override
-	public LocalDateTime obtenerTiempoDeAlarma(Alarma alarma) {
-		return alarma.getTiempo(this.inicio);
-	}
-	@Override
-	public void aceptar(ElementoVisitor visitor) {
-		visitor.visitarEventoPuntual(this);
-	}
+        for (Alarma alarma : this.alarmas) {
+            e.agregarAlarma(alarma);
+        }
+
+        return e;
+    }
+
+    @Override
+    public LocalDateTime obtenerTiempoDeAlarma(Alarma alarma) {
+        return alarma.getTiempo(this.inicio);
+    }
+
+    @Override
+    public void aceptar(ElementoVisitor visitor) {
+        visitor.visitarEventoPuntual(this);
+    }
 
 
 }
