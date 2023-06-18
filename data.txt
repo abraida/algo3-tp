@@ -1,0 +1,185 @@
+{
+  "listaDeTareas": [
+    {
+      "type": 1,
+      "properties": {
+        "fecha": 1686798000000,
+        "estaCompletada": false,
+        "titulo": "Tarea diaria 15/06",
+        "descripcion": "",
+        "id": 2,
+        "alarmas": [
+          {
+            "type": 2,
+            "properties": {
+              "antelacion": 600000,
+              "efecto": {
+                "type": 2,
+                "properties": {}
+              },
+              "id": 0,
+              "fueRealizada": false
+            }
+          },
+          {
+            "type": 2,
+            "properties": {
+              "antelacion": 300000,
+              "efecto": {
+                "type": 2,
+                "properties": {}
+              },
+              "id": 1,
+              "fueRealizada": false
+            }
+          }
+        ],
+        "idActual": 2
+      }
+    },
+    {
+      "type": 2,
+      "properties": {
+        "vencimiento": 1687064400000,
+        "estaCompletada": false,
+        "titulo": "Tarea puntual 18/6 2:00",
+        "descripcion": "",
+        "id": 3,
+        "alarmas": [
+          {
+            "type": 2,
+            "properties": {
+              "antelacion": 840000,
+              "efecto": {
+                "type": 2,
+                "properties": {}
+              },
+              "id": 0,
+              "fueRealizada": true
+            }
+          },
+          {
+            "type": 2,
+            "properties": {
+              "antelacion": 780000,
+              "efecto": {
+                "type": 2,
+                "properties": {}
+              },
+              "id": 1,
+              "fueRealizada": false
+            }
+          },
+          {
+            "type": 2,
+            "properties": {
+              "antelacion": 900000,
+              "efecto": {
+                "type": 2,
+                "properties": {}
+              },
+              "id": 2,
+              "fueRealizada": true
+            }
+          },
+          {
+            "type": 2,
+            "properties": {
+              "antelacion": 720000,
+              "efecto": {
+                "type": 2,
+                "properties": {}
+              },
+              "id": 3,
+              "fueRealizada": true
+            }
+          }
+        ],
+        "idActual": 4
+      }
+    }
+  ],
+  "listaDeRepetidores": [
+    {
+      "elemento": {
+        "type": 1,
+        "properties": {
+          "fecha": 1687057200000,
+          "fechaFinal": 1687143600000,
+          "titulo": "Evento Diario 18/06 a 19/06",
+          "descripcion": "Se repite cada 3 dias",
+          "id": 0,
+          "alarmas": [
+            {
+              "type": 2,
+              "properties": {
+                "antelacion": 1800000,
+                "efecto": {
+                  "type": 2,
+                  "properties": {}
+                },
+                "id": 0,
+                "fueRealizada": false
+              }
+            },
+            {
+              "type": 2,
+              "properties": {
+                "antelacion": 3600000,
+                "efecto": {
+                  "type": 2,
+                  "properties": {}
+                },
+                "id": 1,
+                "fueRealizada": false
+              }
+            }
+          ],
+          "idActual": 2
+        }
+      },
+      "generadorDeInstancia": {
+        "type": 2,
+        "properties": {
+          "dias": 3
+        }
+      },
+      "limitador": {
+        "type": 1,
+        "properties": {
+          "repeticiones": 20
+        }
+      }
+    },
+    {
+      "elemento": {
+        "type": 2,
+        "properties": {
+          "inicio": 1687156200000,
+          "fin": 1687158000000,
+          "titulo": "Evento Puntual 18/06 3:30 4:00",
+          "descripcion": "Se repite cada 7 dias",
+          "id": 1,
+          "alarmas": [],
+          "idActual": 0
+        }
+      },
+      "generadorDeInstancia": {
+        "type": 2,
+        "properties": {
+          "dias": 7
+        }
+      },
+      "limitador": {
+        "type": 1,
+        "properties": {
+          "repeticiones": 20
+        }
+      }
+    }
+  ],
+  "idActual": 4,
+  "creadorDeAlarmas": {
+    "idActual": 0
+  }
+}
