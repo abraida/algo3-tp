@@ -47,9 +47,7 @@ public class App extends Application {
         stage.setResizable(false);
         stage.show();
 
-        stage.setOnCloseRequest(e -> {
-            this.guardar();
-        });
+        stage.setOnCloseRequest(e -> this.guardar());
 
         crearAnimatioTimer();
 

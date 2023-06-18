@@ -5,8 +5,8 @@ import javafx.scene.control.Label;
 
 public class EventoDiarioView extends ElementoView {
     private final Label fin;
-    private Label inicio;
-    private Label tipo;
+    private final Label inicio;
+    private final Label tipo;
 
     public EventoDiarioView(EventoDiario evento) {
         super(evento);

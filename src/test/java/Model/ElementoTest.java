@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ElementoTest {
     @Test
@@ -68,7 +69,7 @@ public class ElementoTest {
         tarea.setEstaCompletada(true);
         var estado = tarea.getEstaCompletada();
 
-        assertEquals(true, estado);
+        assertTrue(estado);
     }
 
     @Test

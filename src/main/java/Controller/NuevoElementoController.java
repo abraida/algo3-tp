@@ -53,9 +53,8 @@ public abstract class NuevoElementoController {
             e.consume();
         });
 
-        agregarAlarmasDialogPane.registrarFinishButtonAction(e -> {
-            model.mandarACalendario();
-        });
+        agregarAlarmasDialogPane.registrarFinishButtonAction(e ->
+                model.mandarACalendario());
 
         agregarAlarmasDialogPane.registrarCrearAlarmaAction(e -> {
             var dias = agregarAlarmasDialogPane.getDias();

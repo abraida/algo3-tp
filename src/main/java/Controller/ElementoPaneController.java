@@ -4,8 +4,8 @@ import Model.ElementoModel;
 import View.ElementoPane;
 
 public class ElementoPaneController {
-    private ElementoPane elementoPane;
-    private ElementoModel model;
+    private final ElementoPane elementoPane;
+    private final ElementoModel model;
 
     public ElementoPaneController(ElementoModel model, ElementoPane elementoPane) {
         this.elementoPane = elementoPane;

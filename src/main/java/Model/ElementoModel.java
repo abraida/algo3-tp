@@ -19,7 +19,7 @@ public class ElementoModel {
     private final ObservableList<Elemento> listaDeElementos = FXCollections.observableArrayList();
     private final ObjectProperty<Elemento> elementoActual = new SimpleObjectProperty<>(null);
     private final IntegerProperty paginaActual = new SimpleIntegerProperty();
-    private ObjectProperty<PeriodoEnum> periodo = new SimpleObjectProperty<>();
+    private final ObjectProperty<PeriodoEnum> periodo = new SimpleObjectProperty<>();
 
     public ElementoModel(Calendario calendario) {
         this.calendario = calendario;

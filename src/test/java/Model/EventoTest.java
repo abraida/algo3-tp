@@ -14,7 +14,6 @@ import static org.junit.Assert.assertEquals;
 public class EventoTest {
 
     private final LocalDate CUATRODENOVIEMBRE = LocalDate.parse("2023-11-04");
-    private final LocalDate CINCODENOVIEMBRE = LocalDate.parse("2023-11-05");
 
     private Evento evento1;
 

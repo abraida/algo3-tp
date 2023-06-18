@@ -1,7 +1,7 @@
 package Logic;
 
 public class LimitadorPorCantidad implements LimitadorDeRepeticion {
-    private long repeticiones;
+    private final long repeticiones;
 
     public LimitadorPorCantidad(long repeticiones) {
         this.repeticiones = repeticiones;

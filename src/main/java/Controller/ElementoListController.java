@@ -5,11 +5,11 @@ import Model.ElementoModel;
 import javafx.scene.control.ListView;
 
 public class ElementoListController {
-    private ListView<Elemento> listView;
+    private final ListView<Elemento> listView;
 
-    private ElementoModel model;
-    private ElementoCellFactory elementoCellFactory;
-    private ElementoCellCreatorVisitor elementoCellCreatorVisitor;
+    private final ElementoModel model;
+    private final ElementoCellFactory elementoCellFactory;
+    private final ElementoCellCreatorVisitor elementoCellCreatorVisitor;
 
     public ElementoListController(ElementoModel model, ListView<Elemento> listView) {
         this.listView = listView;

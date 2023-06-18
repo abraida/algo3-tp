@@ -10,7 +10,6 @@ import javafx.scene.layout.GridPane;
 import javafx.util.converter.IntegerStringConverter;
 
 public class AgregarAlarmasDialogPane extends DialogPane {
-    ElementoModel model;
     GridPane root = new GridPane();
     AlarmaTreeView alarmaTreeView;
 
@@ -19,7 +18,7 @@ public class AgregarAlarmasDialogPane extends DialogPane {
     Spinner<Integer> horas = new Spinner<>();
     Spinner<Integer> minutos = new Spinner<>();
 
-    private Button buttonCrearAlarma = new Button("Agregar");
+    private final Button buttonCrearAlarma = new Button("Agregar");
 
     public AgregarAlarmasDialogPane() {
         this.getButtonTypes().addAll(ButtonType.PREVIOUS, ButtonType.FINISH, ButtonType.CANCEL);

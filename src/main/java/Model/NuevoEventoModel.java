@@ -16,7 +16,6 @@ public class NuevoEventoModel extends NuevoElementoModel {
     @Override
     public void mandarACalendario() {
         calendario.agregarEvento(repetidor);
-        ;
     }
 
     public void crearEventoDiaCompleto(String titulo, String descripcion, LocalDate inicio, LocalDate fin) {

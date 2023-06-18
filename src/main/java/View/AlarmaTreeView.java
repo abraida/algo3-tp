@@ -19,8 +19,8 @@ public class AlarmaTreeView extends VBox {
 
         for (Alarma alarma : alarmable.obtenerAlarmas()) {
             TreeItem<String> nombreAlarma = new TreeItem<>("Alarma N°" + alarma.getID());
-            TreeItem<String> horaAlarma = new TreeItem<String>("Hora: " + alarmable.obtenerTiempoDeAlarma(alarma));
-            TreeItem<String> efectoAlarma = new TreeItem<String>("Efecto: " + alarma.disparar());
+            TreeItem<String> horaAlarma = new TreeItem<>("Hora: " + alarmable.obtenerTiempoDeAlarma(alarma));
+            TreeItem<String> efectoAlarma = new TreeItem<>("Efecto: " + alarma.disparar());
 
             root.getChildren().add(nombreAlarma);
             nombreAlarma.getChildren().add(horaAlarma);

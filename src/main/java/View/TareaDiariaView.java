@@ -4,10 +4,10 @@ import Logic.TareaDiaria;
 import javafx.scene.control.Label;
 
 public class TareaDiariaView extends ElementoView {
-    private Label fecha;
-    private Label completada;
+    private final Label fecha;
+    private final Label completada;
 
-    private Label tipo;
+    private final Label tipo;
 
     public TareaDiariaView(TareaDiaria tarea) {
         super(tarea);

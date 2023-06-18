@@ -12,15 +12,15 @@ import javafx.scene.layout.VBox;
 public class ElementoMenuView extends VBox {
 
     public ToggleGroup toogleGroup;
-    private ElementoModel model;
-    private HBox pagination;
-    private ToolBar toolBar;
-    private Button buttonCrearEvento;
-    private Button buttonCrearTarea;
+    private final ElementoModel model;
+    private final HBox pagination;
+    private final ToolBar toolBar;
+    private final Button buttonCrearEvento;
+    private final Button buttonCrearTarea;
 
-    private Button buttonNext;
-    private Button buttonToday;
-    private Button buttonPrevious;
+    private final Button buttonNext;
+    private final Button buttonToday;
+    private final Button buttonPrevious;
 
     public ElementoMenuView(ElementoModel elementoModel) {
         this.model = elementoModel;

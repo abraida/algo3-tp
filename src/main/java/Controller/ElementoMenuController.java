@@ -9,8 +9,8 @@ public class ElementoMenuController {
 
     private final ElementoModel model;
     private final ElementoMenuView menuView;
-    private NuevoElementoControllerFactory nuevoElementoControllerFactory;
-    private NuevoElementoModelFactory nuevoElementoModelFactory;
+    private final NuevoElementoControllerFactory nuevoElementoControllerFactory;
+    private final NuevoElementoModelFactory nuevoElementoModelFactory;
 
 
     public ElementoMenuController(ElementoModel model,
@@ -25,17 +25,14 @@ public class ElementoMenuController {
     }
 
     public void initView() {
-        menuView.registrarNextButtonAccion(e -> {
-            model.setPaginaActual(model.getPaginaActual() + 1);
-        });
+        menuView.registrarNextButtonAccion(e ->
+                model.setPaginaActual(model.getPaginaActual() + 1));
 
-        menuView.registrarPreviousButtonAccion(e -> {
-            model.setPaginaActual(model.getPaginaActual() - 1);
-        });
+        menuView.registrarPreviousButtonAccion(e ->
+                model.setPaginaActual(model.getPaginaActual() - 1));
 
-        menuView.registrarTodayButtonAccion(e -> {
-            model.setPaginaActual(0);
-        });
+        menuView.registrarTodayButtonAccion(e ->
+                model.setPaginaActual(0));
 
         menuView.registrarNuevaTareaAccion(e -> {
             var m = nuevoElementoModelFactory.crearNuevaTareaModel();

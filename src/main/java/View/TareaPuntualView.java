@@ -4,9 +4,9 @@ import Logic.TareaPuntual;
 import javafx.scene.control.Label;
 
 public class TareaPuntualView extends ElementoView {
-    private Label vencimiento;
-    private Label completada;
-    private Label tipo;
+    private final Label vencimiento;
+    private final Label completada;
+    private final Label tipo;
 
 
     public TareaPuntualView(TareaPuntual tarea) {

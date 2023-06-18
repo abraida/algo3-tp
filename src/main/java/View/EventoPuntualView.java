@@ -5,8 +5,8 @@ import javafx.scene.control.Label;
 
 public class EventoPuntualView extends ElementoView {
     private final Label fin;
-    private Label inicio;
-    private Label tipo;
+    private final Label inicio;
+    private final Label tipo;
 
     public EventoPuntualView(EventoPuntual evento) {
         super(evento);
