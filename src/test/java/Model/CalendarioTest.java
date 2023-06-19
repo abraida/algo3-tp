@@ -310,6 +310,5 @@ public class CalendarioTest {
         assertEquals(l.get(4).getID(), lDes.get(4).getID());
         assertEquals(l.get(5).getID(), lDes.get(5).getID());
         assertEquals(l.size(), lDes.size());
-
     }
 }

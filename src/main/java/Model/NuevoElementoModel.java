@@ -27,5 +27,4 @@ public abstract class NuevoElementoModel {
     }
 
     public abstract void mandarACalendario();
-
 }

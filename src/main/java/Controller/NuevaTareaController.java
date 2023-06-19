@@ -1,32 +1,51 @@
 package Controller;
 
 import Model.NuevaTareaModel;
+import Model.NuevoElementoModel;
 import View.NuevaTareaDialogPane;
+import View.NuevoElementoDialogPane;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class NuevaTareaController extends NuevoElementoController {
-    public NuevaTareaController(NuevaTareaModel model) {
-        super(model, new NuevaTareaDialogPane());
+    NuevaTareaModel model;
+    NuevaTareaDialogPane pane;
+    public NuevaTareaController(NuevaTareaModel model, NuevaTareaDialogPane pane) {
+        super();
+        this.model = model;
+        this.pane = pane;
+    }
 
+    @Override
+    public void crearDialogo() {
+        dialog.setDialogPane(pane);
         dialog.setTitle("Nueva Tarea");
         dialog.setHeaderText("Crear nueva tarea");
     }
 
     @Override
+    public NuevoElementoModel crearModel() {
+        return model;
+    }
+
+    @Override
+    public NuevoElementoDialogPane crearDialogPane() {
+        return this.pane;
+    }
+
+    @Override
     public void crearElemento() {
-        var NTview = (NuevaTareaDialogPane) nuevoElementoDialogPane;
-        var NTmodel = (NuevaTareaModel) model;
-        String titulo = NTview.getTitulo();
-        String descripcion = NTview.getDescripcion();
-        LocalDate fecha = NTview.getFecha();
+        var pane = (NuevaTareaDialogPane) dialogPane;
+        String titulo = pane.getTitulo();
+        String descripcion = pane.getDescripcion();
+        LocalDate fecha = pane.getFecha();
 
         if (elementoEsDeDiaCompleto) {
-            NTmodel.crearTareaDiaCompleto(titulo, descripcion, fecha);
+            model.crearTareaDiaCompleto(titulo, descripcion, fecha);
         } else {
-            LocalDateTime vencimiento = fecha.atTime(NTview.getHora(), NTview.getMinutos());
-            NTmodel.crearTareaPuntual(titulo, descripcion, vencimiento);
+            LocalDateTime vencimiento = fecha.atTime(pane.getHora(), pane.getMinutos());
+            model.crearTareaPuntual(titulo, descripcion, vencimiento);
         }
 
     }

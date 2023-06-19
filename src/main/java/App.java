@@ -1,11 +1,7 @@
-import Controller.ElementoListController;
-import Controller.ElementoMenuController;
-import Controller.ElementoPaneController;
-import Controller.RealizadorDeAlarmas;
+import Controller.*;
 import Logic.Calendario;
 import Model.ElementoModel;
 import Model.NotificacionModel;
-import Model.NuevoElementoModelFactory;
 import View.ElementoListView;
 import View.ElementoMenuView;
 import View.ElementoPane;
@@ -31,7 +27,6 @@ public class App extends Application {
         calendario = cargar();
         ElementoModel elementoModel = new ElementoModel(calendario);
         notificacionModel = new NotificacionModel(calendario);
-        var nuevoElementoModelFactory = new NuevoElementoModelFactory(calendario);
 
         ElementoListView elementoListView = new ElementoListView(elementoModel);
         ElementoPane elementoPane = new ElementoPane();
@@ -40,7 +35,9 @@ public class App extends Application {
 
         ElementoListController listController = new ElementoListController(elementoModel, elementoListView);
         ElementoPaneController treeController = new ElementoPaneController(elementoModel, elementoPane);
-        ElementoMenuController menuController = new ElementoMenuController(elementoModel, nuevoElementoModelFactory, elementoMenuView);
+
+        var creator = new NuevoElementoMVCCreator(calendario);
+        ElementoMenuController menuController = new ElementoMenuController(elementoModel, elementoMenuView, creator);
 
         Scene scene = new Scene(view.asParent(), 1200, 800);
         stage.setScene(scene);

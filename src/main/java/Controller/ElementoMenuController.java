@@ -2,23 +2,19 @@ package Controller;
 
 import Logic.PeriodoEnum;
 import Model.ElementoModel;
-import Model.NuevoElementoModelFactory;
 import View.ElementoMenuView;
 
 public class ElementoMenuController {
 
     private final ElementoModel model;
     private final ElementoMenuView menuView;
-    private final NuevoElementoControllerFactory nuevoElementoControllerFactory;
-    private final NuevoElementoModelFactory nuevoElementoModelFactory;
+    private NuevoElementoMVCCreator nuevoElementoMVCCreator;
 
 
-    public ElementoMenuController(ElementoModel model,
-                                  NuevoElementoModelFactory nuevoElementoModelFactory, ElementoMenuView menuView) {
+    public ElementoMenuController(ElementoModel model, ElementoMenuView menuView, NuevoElementoMVCCreator nuevoElementoMVCCreator) {
         this.menuView = menuView;
         this.model = model;
-        this.nuevoElementoModelFactory = nuevoElementoModelFactory;
-        this.nuevoElementoControllerFactory = new NuevoElementoControllerFactory();
+        this.nuevoElementoMVCCreator = nuevoElementoMVCCreator;
 
         initView();
         initModel();
@@ -35,16 +31,13 @@ public class ElementoMenuController {
                 model.setPaginaActual(0));
 
         menuView.registrarNuevaTareaAccion(e -> {
-            var m = nuevoElementoModelFactory.crearNuevaTareaModel();
-            var c = nuevoElementoControllerFactory.crearNuevaTareaController(m);
-            c.lanzarDialogo();
+            nuevoElementoMVCCreator.crearNuevaTarea();
             model.generarElementos();
+
         });
 
         menuView.registrarNuevoEventoAccion(e -> {
-            var m = nuevoElementoModelFactory.crearNuevoEventoModel();
-            var c = nuevoElementoControllerFactory.crearNuevoEventoController(m);
-            c.lanzarDialogo();
+            nuevoElementoMVCCreator.crearNuevoEvento();
             model.generarElementos();
         });
     }

@@ -7,37 +7,49 @@ import View.NuevoElementoDialogPane;
 import javafx.scene.control.Dialog;
 
 public abstract class NuevoElementoController {
-    protected final Dialog<Object> dialog;
+    protected  Dialog<String> dialog;
     protected NuevoElementoModel model;
-    protected NuevoElementoDialogPane nuevoElementoDialogPane;
+    protected NuevoElementoDialogPane dialogPane;
     protected AgregarAlarmasDialogPane agregarAlarmasDialogPane;
     protected boolean elementoEsDeDiaCompleto;
 
-    public NuevoElementoController(NuevoElementoModel model, NuevoElementoDialogPane pane) {
-        this.model = model;
-        this.nuevoElementoDialogPane = pane;
+    public NuevoElementoController() {
         this.agregarAlarmasDialogPane = new AgregarAlarmasDialogPane();
+    }
 
+    public void lanzarDialogo() {
         dialog = new Dialog<>();
-        dialog.setDialogPane(pane);
+        this.model = crearModel();
+        this.dialogPane = crearDialogPane();
 
+        init();
+
+        dialog.showAndWait();
+    }
+    public void init(){
+        crearDialogo();
         initNuevoElementoView();
         initAlarmasView();
     }
 
+    public abstract void crearDialogo();
+
+    public abstract NuevoElementoModel crearModel();
+    public abstract NuevoElementoDialogPane crearDialogPane();
+    public abstract void crearElemento();
     public void initNuevoElementoView() {
         elementoEsDeDiaCompleto = false;
 
-        nuevoElementoDialogPane.registrarEsDiaCompletoListener((obs, old, n) -> {
+        dialogPane.registrarEsDiaCompletoListener((obs, old, n) -> {
             elementoEsDeDiaCompleto = n;
             if (n) {
-                nuevoElementoDialogPane.ocultarHora();
+                dialogPane.ocultarHora();
                 return;
             }
-            nuevoElementoDialogPane.mostrarHora();
+            dialogPane.mostrarHora();
         });
 
-        nuevoElementoDialogPane.registrarNextButtonAccion(e -> {
+        dialogPane.registrarNextButtonAccion(e -> {
             e.consume();
             if (!validarCamposObligatorios()) {
                 return;
@@ -49,7 +61,7 @@ public abstract class NuevoElementoController {
 
     public void initAlarmasView() {
         agregarAlarmasDialogPane.registrarPreviousButtonAction(e -> {
-            dialog.setDialogPane(nuevoElementoDialogPane);
+            dialog.setDialogPane(dialogPane);
             e.consume();
         });
 
@@ -69,19 +81,14 @@ public abstract class NuevoElementoController {
 
     private boolean validarCamposObligatorios() {
         return (elementoEsDeDiaCompleto
-                && nuevoElementoDialogPane.estanCamposObligatoriosDiaCompleto())
+                && dialogPane.estanCamposObligatoriosDiaCompleto())
                 || (!elementoEsDeDiaCompleto
-                && nuevoElementoDialogPane.estanCamposObligatoriosPuntual());
+                && dialogPane.estanCamposObligatoriosPuntual());
     }
 
-    public abstract void crearElemento();
 
     private void pasarAMenuDeAlarmas() {
         dialog.setDialogPane(agregarAlarmasDialogPane);
         agregarAlarmasDialogPane.setAlarmaTreeView(new AlarmaTreeView(model.getElemento()));
-    }
-
-    public void lanzarDialogo() {
-        dialog.showAndWait();
     }
 }
